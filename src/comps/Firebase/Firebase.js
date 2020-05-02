@@ -6,14 +6,14 @@ export const AppContext = React.createContext()
 
     const config = {
       // your config info here
-      // apiKey: ,
-      // authDomain: ,
-      // databaseURL: ,
-      // projectId: ,
-      // storageBucket: ,
-      // messagingSenderId: ,
-      // appId:,
-      // measurementId: 
+      apiKey: "AIzaSyBNqOn-qUE1KbHriylJy_KWLXy8GnyC0mM",
+      authDomain: "custom-ring-design.firebaseapp.com",
+      databaseURL: "https://custom-ring-design.firebaseio.com",
+      projectId: "custom-ring-design",
+      storageBucket: "custom-ring-design.appspot.com",
+      messagingSenderId: "401445854653",
+      appId: "1:401445854653:web:73fe6dc4770d9a7d7946d4",
+      measurementId: "G-BB39S0R1HQ"
     };
    
     class Firebase extends React.Component {
@@ -44,7 +44,7 @@ export const AppContext = React.createContext()
             loading: null,
             // user: null
           }
-          console.log('here')
+          // console.log('here')
           app.initializeApp(config);
 
           this.auth = app.auth();
@@ -132,14 +132,14 @@ export const AppContext = React.createContext()
             let tasks = this.db.collection(`customers/${cust.id}/tasks`)
             //task data fir customer
             tasks.add({
-              start_date:firebase.firestore.Timestamp.fromDate(new Date("December 10, 1815")),
-              end_date:firebase.firestore.Timestamp.fromDate(new Date("December 12, 1815")),
+              start_date:this.db.Timestamp.fromDate(new Date("December 10, 1815")),
+              end_date:this.db.Timestamp.fromDate(new Date("December 12, 1815")),
               charge:"$20.00",
               task_desc:'cleaning',
             })
             tasks.add({
-              start_date:firebase.firestore.Timestamp.fromDate(new Date("August 20, 1830")),
-              end_date:firebase.firestore.Timestamp.fromDate(new Date("September 1, 1830")),
+              start_date:this.db.Timestamp.fromDate(new Date("August 20, 1830")),
+              end_date:this.db.Timestamp.fromDate(new Date("September 1, 1830")),
               charge:"$100.00",
               task_desc:'repair',
             })    
@@ -149,13 +149,13 @@ export const AppContext = React.createContext()
               last_name: name[1],
               phone_number: "123 321 1232",
               email_address: 'san@fake.come',
-              last_in: firebase.firestore.Timestamp.fromDate(new Date("September 1, 1830")),
+              last_in: this.db.Timestamp.fromDate(new Date("September 1, 1830")),
               recent_task: 'repair',
               notes: 'Nullam commodo eros ut commodo aliquam. Cras vestibulum accumsan bibendum. Morbi tristique massa a elit vehicula pellentesque. Nam iaculis posuere dui eu fermentum. Quisque in lectus leo. Aenean libero nunc, rutrum quis velit vel, tristique vulputate magna. Sed et lorem et lectus tempus dignissim.',
-              date_purchased: firebase.firestore.Timestamp.fromDate(new Date("December 26, 1777")),
+              date_purchased: this.db.Timestamp.fromDate(new Date("December 26, 1777")),
             })
           }
-      }
+        }
       async componentDidMount(){
       // STUFF YOU DO RIGHT AT THE BEGINING 
       }
