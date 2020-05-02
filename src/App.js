@@ -1,24 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import {withFirebase} from './comps/Firebase'
+import FastFirestore from './comps/Views/FastFirestore';
 function App(props) {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          {props.context.test}
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className='btn btn-primary'>
+        hello
+      </div>
+      <FastFirestore/>
     </div>
   );
 }
