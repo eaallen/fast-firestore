@@ -44,6 +44,7 @@ export const AppContext = React.createContext()
           this.state = {
             test:'this is comming from the firbase context provider',
             loading: null,
+
             // user: null
           }
           // console.log('here')
@@ -61,7 +62,9 @@ export const AppContext = React.createContext()
           });
         }
 
-        
+        doSetState = (obj) =>{
+          this.setState({...this.state, obj})
+        }
         updateUserAuth = (userInfo) =>{
           // this.state.auth_user = userInfo
           // // this.state.auth_user = userInfo          
@@ -163,9 +166,13 @@ export const AppContext = React.createContext()
           }
         }
       async componentDidMount(){
+        axios.defaults.headers.post['Content-Type'] = 'application/json';
+        axios.defaults.method= 'post'    
+
       // STUFF YOU DO RIGHT AT THE BEGINING 
       }
         render(){
+          console.log('context state is:',this.state)
           return(
             <AppContext.Provider value={{...this.state, ...this.actions }}>
               {this.props.children}

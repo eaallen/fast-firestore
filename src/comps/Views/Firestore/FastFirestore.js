@@ -2,7 +2,7 @@ import React from 'react'
 import { withFirebase } from '../../Firebase'
 import {Button} from 'react-bootstrap'
 import produce from 'immer'
-
+import axios from 'axios'
 class FastFirestoreBase extends React.Component{
     constructor(props){
         super(props)
@@ -10,6 +10,8 @@ class FastFirestoreBase extends React.Component{
             collection: '',
             attribute_comp: [],
             attribute:[],
+            api_key:'',
+            dw_data_set:'',
         }
         this.actions={
             add_attribute: this.add_attribute
@@ -36,6 +38,9 @@ class FastFirestoreBase extends React.Component{
             draft.attribute.push([key,value])
         }))
     }
+    get_dw_data(){
+    
+    }
     render(){
         console.log('state',this.state)
         return(
@@ -46,6 +51,14 @@ class FastFirestoreBase extends React.Component{
                     <br/>
                     <input value={this.state.collection} onChange={e=>this.handle_change(e)} name='collection'/>
                     <br/>
+                    Data.world data set
+                    <br/>
+                    link
+                    <input value={this.state.dw_data_set} onChange={e=>this.handle_change(e)} name='dw_data_set'/>
+                    <br/>
+                    api key
+                    <input value={this.state.api_key} onChange={e=>this.handle_change(e)} name='api_key'/>
+                    <Button onClick={e=>this.get_dw_data()}>Get data</Button>
                     <div>
                         {this.state.attribute_comp.map((item,key)=>{
                             return(
@@ -57,7 +70,7 @@ class FastFirestoreBase extends React.Component{
                     </div>
                     <Button onClick={e=>this.add_attribute_comp()}>Add Atribute</Button>
                 </div>
-                <Button onClick={e=>this.handle_click()}>submit</Button>
+                <Button onClick={e=>this.handle_click()}>get data</Button>
             </div>
         )
     }
