@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import {withFirebase} from './comps/Firebase'
-import FastFirestore from './comps/Views/FastFirestore';
+import FastFirestore from './comps/Views/Firestore/FastFirestore';
 function App(props) {
   return (
     <div className="App">
