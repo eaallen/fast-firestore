@@ -57,14 +57,14 @@ export const AppContext = React.createContext()
         this.state = {
           test:'this is comming from the firbase context provider',
           loading: null,
+          up_loading: null,
 
           // user: null
         }
         // console.log('here')
         var defaultProject = firebase.initializeApp(config);
-        var sec = firebase.initializeApp(secondary_config, "secondary");
+        // var sec = firebase.initializeApp(secondary_config, "secondary");
         console.log(firebase.app().name);  // "[DEFAULT]"
-        console.log(sec.name);    // "otherProject"
         this.auth = firebase.auth();
         this.db = firebase.firestore()
         // this.googleProvider =new app.auth.GoogleAuthProvider();
@@ -72,7 +72,7 @@ export const AppContext = React.createContext()
         // secoudary config database connection
         // console.log('secoundary', secondary)
         // console.log('default' )
-        this.secondaryDatabase = sec.firestore();
+        // this.secondaryDatabase = sec.firestore();
 
 
         this.auth.onAuthStateChanged(function(user) {
@@ -195,11 +195,14 @@ export const AppContext = React.createContext()
       }
       pushDataToFirestore = async(collection_name, arr_data) =>{
         // make a collection for the data
-        const collection = this.secondaryDatabase.collection(collection_name)
+        let sec = firebase.initializeApp(this.state.second_config, "secondary");
+        console.log(sec.name);    // "otherProject name"
+        let secondaryDatabase = sec.firestore();
+        const collection = secondaryDatabase.collection(collection_name)
         let i = 1
         for(const obj of arr_data){
-        await collection.add(obj)
-         console.log(i++)
+          await collection.add(obj)
+          console.log(i++)
         }
       }
       async componentDidMount(){

@@ -1,4 +1,5 @@
 import React from 'react'
+import { withFirebase } from '../../Firebase'
 
 class CsvUploadBase extends React.Component{
     constructor(props){
@@ -8,17 +9,30 @@ class CsvUploadBase extends React.Component{
         }
     }
 
+    get_file(e){
+        try{
+            console.log('file added', e.target.value)
+            console.log('file added', e.target.files)
+
+        }catch(err){
+            console.error('err in get_file()',err)
+        }
+    }
 
 
 
 
-
-    redner(){
+    render(){
         return(
             <div>
-
+                <form action=''>
+                    <label htmlFor="myfile">Select a file: </label>
+                    <input type="file" id="myfile" name="myfile" onChange={e=>this.get_file(e)}/><br/><br/>
+                    <button onClick={e=>e.preventDefault(e)}type='submit'>submit</button>
+                </form>
             </div>
         )
     }
 }
-const
+const CsvUpload = withFirebase(CsvUploadBase)
+export default CsvUpload
