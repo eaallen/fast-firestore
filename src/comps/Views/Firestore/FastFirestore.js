@@ -57,11 +57,13 @@ class FastFirestoreBase extends React.Component{
             },
         })
         console.log('response from data.world',resp.data)
+        this.props.context.doSetState('dw_data', resp.data)
         //resp.data is an array response from the data.world client
         // collection is the string name of the collection that will be created in firebase
-        await this.props.context.doSetState('second_config',this.parse_and_send())
+        
+        // await this.props.context.doSetState('second_config',this.parse_and_send())
 
-        this.props.context.pushDataToFirestore(this.state.collection, resp.data)
+        // this.props.context.pushDataToFirestore(this.state.collection, resp.data)
     }
     parse_and_send(){
         //use regex to turn the config string into JSON format
@@ -161,7 +163,7 @@ class FastFirestoreBase extends React.Component{
                         {/* https://api.data.world/v0/sql/eaallen/cleancovid */}
                         {/* eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcm9kLXVzZXItY2xpZW50OmVhYWxsZW4iLCJpc3MiOiJhZ2VudDplYWFsbGVuOjo0YzBlYWQ5YS1kODE5LTQzMWMtYjVmOS0zNGEwZDE5MzRkOGQiLCJpYXQiOjE1Nzc3MTc5OTcsInJvbGUiOlsidXNlcl9hcGlfcmVhZCIsInVzZXJfYXBpX3dyaXRlIl0sImdlbmVyYWwtcHVycG9zZSI6dHJ1ZSwic2FtbCI6e319.XbV9G84LNvqN6RREjPKFlDLQrTtzUu5KVu46xDS7TOtGnMZ94h1PrNaAkQ6zT-79QOM7Ku2GrZdivguQ_o9jsw */}
                         
-                        <button onClick={e=>this.get_dw_data(e)}>Get data</button>
+                        <button onClick={e=>this.get_dw_data(e)}>View data from data.world</button>
                         <div>
                             {this.state.attribute_comp.map((item,key)=>{
                                 return(
@@ -173,9 +175,8 @@ class FastFirestoreBase extends React.Component{
                         </div>
                     
                 </Form>
-                <button onClick={e=>this.handle_click(e)}>get data</button>
+                <button onClick={e=>this.handle_click(e)}>Commit to firebase</button>
                 <button onClick={e=>this.add_attribute_comp()}>Add Atribute</button>
-                <CsvUpload/>
             </div>
         )
     }

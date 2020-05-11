@@ -4,6 +4,7 @@ import './App.css';
 import {withFirebase} from './comps/Firebase'
 import FastFirestore from './comps/Views/Firestore/FastFirestore';
 import { Row,Col } from 'react-bootstrap';
+import ShowData from './comps/Views/ShowData';
 function App(props) {
   return (
     <div className="App">
@@ -11,14 +12,11 @@ function App(props) {
         hello
       </div>
       <Row noGutters>
-        <Col>
-        
-        </Col>
-        <Col>
+        <Col sm={3}>
           <FastFirestore/>
         </Col>
-        <Col>
-        
+        <Col sm={9}>
+          <ShowData/>
         </Col>
       </Row>
     </div>
