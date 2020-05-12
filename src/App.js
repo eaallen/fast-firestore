@@ -2,23 +2,24 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import {withFirebase} from './comps/Firebase'
-import FastFirestore from './comps/Views/Firestore/FastFirestore';
-import { Row,Col } from 'react-bootstrap';
-import ShowData from './comps/Views/ShowData';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+import Home from './comps/Views/Home/Home';
+
 function App(props) {
   return (
     <div className="App">
-      <div className='btn btn-primary'>
-        hello
-      </div>
-      <Row noGutters>
-        <Col sm={3}>
-          <FastFirestore/>
-        </Col>
-        <Col sm={9}>
-          <ShowData/>
-        </Col>
-      </Row>
+      <Router>
+        <Switch>
+          <Route path="/">
+            <Home/>
+          </Route>
+        </Switch>
+      </Router>
+      
     </div>
   );
 }

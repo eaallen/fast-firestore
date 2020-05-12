@@ -9,13 +9,13 @@ function ShowDataBase (props){
         )
     }
     const data = []
-    for(let icount = 0; icount < 5; icount++){
+    for(let icount = 0; icount < 10; icount++){
         data.push(props.context.dw_data[icount])
     }
     console.log(data)
     return(
         <div>
-            <Table striped bordered hover responsive>
+            <Table striped bordered responsive size="sm">
                 <thead>
                     <tr>
                         {Object.entries(data[0]).map(item=>{
@@ -43,6 +43,9 @@ function ShowDataBase (props){
                     })}
                 </tbody>
             </Table>
+            <p className="text-left">
+                10 of {Object.entries(data[0]).length} rows
+            </p>
         </div>
 
     )

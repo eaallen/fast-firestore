@@ -28,9 +28,10 @@ class FastFirestoreBase extends React.Component{
         this.setState(new_state)        
     }
 
-    handle_click(e){
+    async handle_click(e){
         e.preventDefault()
-        this.props.context.loadFakeData(this.state.collection)
+        await this.props.context.doSetState('second_config',this.parse_and_send())
+        this.props.context.pushDataToFirestore(this.state.collection, this.props.context.dw_data)
         this.setState({...this.state, collection:''})
     }
     //add the attribute component to the array in state
@@ -92,8 +93,9 @@ class FastFirestoreBase extends React.Component{
         console.log('state',this.state)
         return(
             <div>
-                <button onClick={e=> this.test(e)}>test</button>
                 <h1>Fast Firestore</h1>
+                <h5>with</h5>
+                <h3>Data.world</h3>
                 <Form>
                     <Form.Group>
                         <Form.Control 
