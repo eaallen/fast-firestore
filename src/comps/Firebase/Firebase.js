@@ -87,11 +87,13 @@ export const AppContext = React.createContext()
       initializeOtherApp = async(otherConfig) =>{
         
       }
-      doSetState = (key,value) =>{
+      doSetState = (value) =>{
         // key is string valve can be anything
-        this.setState(state=> produce(state, draft=>{
-          draft[key] = value
-      }))
+        for(const item of Object.entries(value)){
+          this.setState(state=> produce(state, draft=>{
+            draft[item[0]] = item[1]
+        }))
+        }
       }
       updateUserAuth = (userInfo) =>{
         // this.state.auth_user = userInfo

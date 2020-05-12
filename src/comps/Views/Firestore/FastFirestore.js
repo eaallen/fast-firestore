@@ -91,31 +91,8 @@ class FastFirestoreBase extends React.Component{
         console.log('state',this.state)
         return(
             <div>
-                <h1>Fast Firestore</h1>
-                <h5>with</h5>
-                <h3>Data.world</h3>
+                <h3>Import from Data.world</h3>
                 <Form>
-                    <Form.Group>
-                        <Form.Control 
-                            as="textarea"
-                            value={this.state.firebase_config} 
-                            onChange={e=>this.handle_change(e)} 
-                            name='firebase_config'                    
-                        />
-                        <button onClick={e=>this.handle_click(e)}>save ref</button>
-
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>
-                            Make Collection
-                        </Form.Label>
-                        <Form.Control 
-                            value={this.state.collection}
-                            onChange={e=>this.handle_change(e)} 
-                            name='collection'
-                        />
-                    </Form.Group>
-                    Data.world
                     <Row>
                         <Col>
                             <Form.Label>

@@ -3,6 +3,7 @@ import {Row, Col} from 'react-bootstrap'
 import FastFirestore from '../Firestore/FastFirestore'
 import ShowData from '../ShowData'
 import CsvUpload from '../Firestore/CsvUpload'
+import ConfigCollection from '../Firestore/ConfigCollection'
 export default function Home(props){
     return(
         <div>
@@ -23,21 +24,31 @@ export default function Home(props){
                         <h4>
                             Create a Collection Instance for Your Data
                         </h4>
-                        
+                        <ConfigCollection/>
                     </div>
                 </Col>
                 <Col sm={9}>
                     pictures go here
                 </Col>
             </Row>
+            <br/> <br/>
             <Row noGutters>
                 <Col sm={3} className="pl-4 pr-4">
-                    <FastFirestore/>
+                    <div>
+                        <h1>
+                            Step 2.
+                        </h1>
+                        <h4>
+                            Import Data from Source and review it
+                        </h4>
+                        <FastFirestore/>
+                    </div>
                 </Col>
                 <Col sm={9}>
                     <ShowData data="dw_data"/>
                 </Col>
             </Row>
+            <br/> <br/>
             <Row noGutters>
                 <Col sm={3} className="pl-4 pr-4">
                     <CsvUpload/>

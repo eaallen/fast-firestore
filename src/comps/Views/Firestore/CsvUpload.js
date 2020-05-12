@@ -34,6 +34,7 @@ class CsvUploadBase extends React.Component{
     render(){
         return(
             <div>
+                <h3>Import from Local CSV file</h3>
                 <label htmlFor="myfile">Select a file: </label>
                 <input type="file" id="myfile" name="myfile" onChange={e=>this.see_data(e)} multiple/><br/><br/>                
             </div>
