@@ -1,35 +1,44 @@
 import React from 'react'
 import { withFirebase } from '../../Firebase'
-
+import Papa from 'papaparse'
 class CsvUploadBase extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-
         }
     }
 
     get_file(e){
         try{
-            console.log('file added', e.target.value)
-            console.log('file added', e.target.files)
+            console.log('file added', e.target)
+
 
         }catch(err){
             console.error('err in get_file()',err)
         }
     }
-
+    async see_data(){
+        const selectedFile = document.getElementById('myfile').files[0];
+        console.log(selectedFile)
+        Papa.parse(selectedFile,{
+            header: false,
+            complete: (results) => {
+            var data = results.data
+            console.log('data',data)
+            this.props.context.doSetState('csv_data', data)
+        }})
+    }
 
 
 
     render(){
         return(
             <div>
-                <form action=''>
-                    <label htmlFor="myfile">Select a file: </label>
-                    <input type="file" id="myfile" name="myfile" onChange={e=>this.get_file(e)}/><br/><br/>
-                    <button onClick={e=>e.preventDefault(e)}type='submit'>submit</button>
-                </form>
+            
+                <label htmlFor="myfile">Select a file: </label>
+                <input type="file" id="myfile" name="myfile" onChange={e=>this.get_file(e)} multiple/><br/><br/>
+                <button onClick={e=>this.see_data()}>submit</button>
+                
             </div>
         )
     }
