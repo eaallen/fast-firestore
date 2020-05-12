@@ -10,7 +10,7 @@ class CsvUploadBase extends React.Component{
 
     get_file(e){
         try{
-            console.log('file added', e.target)
+            this.see_data()
 
 
         }catch(err){
@@ -21,7 +21,7 @@ class CsvUploadBase extends React.Component{
         const selectedFile = document.getElementById('myfile').files[0];
         console.log(selectedFile)
         Papa.parse(selectedFile,{
-            header: false,
+            header: true,
             complete: (results) => {
             var data = results.data
             console.log('data',data)
@@ -34,11 +34,8 @@ class CsvUploadBase extends React.Component{
     render(){
         return(
             <div>
-            
                 <label htmlFor="myfile">Select a file: </label>
-                <input type="file" id="myfile" name="myfile" onChange={e=>this.get_file(e)} multiple/><br/><br/>
-                <button onClick={e=>this.see_data()}>submit</button>
-                
+                <input type="file" id="myfile" name="myfile" onChange={e=>this.see_data(e)} multiple/><br/><br/>                
             </div>
         )
     }

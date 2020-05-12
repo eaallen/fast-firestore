@@ -3,18 +3,24 @@ import { withFirebase } from '../Firebase'
 import { Table } from 'react-bootstrap'
 
 function ShowDataBase (props){
-    if (!props.context.dw_data){
+    if (!props.context[props.data]){
         return(
             <div>test data here</div>
         )
     }
+    const handle_click = async () =>{
+        
+        props.context.pushDataToFirestore('Testing', props.context[props.data])
+    }
     const data = []
     for(let icount = 0; icount < 10; icount++){
-        data.push(props.context.dw_data[icount])
+        data.push(props.context[props.data][icount])
     }
     console.log(data)
     return(
         <div>
+            <button onClick={e=>handle_click()}>Commit to firebase</button>
+            
             <Table striped bordered responsive size="sm">
                 <thead>
                     <tr>
@@ -44,7 +50,7 @@ function ShowDataBase (props){
                 </tbody>
             </Table>
             <p className="text-left">
-                10 of {Object.entries(data[0]).length} rows
+                10 of {props.context[props.data].length} rows
             </p>
         </div>
 

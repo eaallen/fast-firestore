@@ -13,12 +13,29 @@ export default function Home(props){
                 </h1>
                 
             </div>
+            
+            <Row noGutters>
+                <Col sm={3} className="pl-4 pr-4">
+                    <div>
+                        <h1>
+                            Step 1.
+                        </h1>
+                        <h4>
+                            Create a Collection Instance for Your Data
+                        </h4>
+                        
+                    </div>
+                </Col>
+                <Col sm={9}>
+                    pictures go here
+                </Col>
+            </Row>
             <Row noGutters>
                 <Col sm={3} className="pl-4 pr-4">
                     <FastFirestore/>
                 </Col>
                 <Col sm={9}>
-                    <ShowData/>
+                    <ShowData data="dw_data"/>
                 </Col>
             </Row>
             <Row noGutters>
@@ -26,7 +43,7 @@ export default function Home(props){
                     <CsvUpload/>
                 </Col>
                 <Col sm={9}>
-                    <ShowData/>
+                    <ShowData data="csv_data"/>
                 </Col>
             </Row>
         </div>
