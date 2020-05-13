@@ -59,7 +59,7 @@ export const AppContext = React.createContext()
           test:'this is comming from the firbase context provider',
           loading: null,
           up_loading: null,
-          dataset_obj: {},
+          dataset_arr: [],
 
           // user: null
         }
@@ -89,9 +89,9 @@ export const AppContext = React.createContext()
       initializeOtherApp = async(otherConfig) =>{
         
       }
-      push_dataset_to_array = (key,dataset)=>{
+      push_dataset_to_array = (dataset)=>{
         this.setState(state=> produce(state, draft=>{
-          draft.dataset_obj[key] = dataset
+          draft.dataset_arr.push(dataset)
         }))
       }
       doSetState = (value) =>{
