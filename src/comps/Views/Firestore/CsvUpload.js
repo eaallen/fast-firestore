@@ -22,10 +22,12 @@ class CsvUploadBase extends React.Component{
         console.log(selectedFile)
         Papa.parse(selectedFile,{
             header: true,
+            skipEmptyLines: true,
             complete: (results) => {
             var data = results.data
             console.log('data',data)
-            this.props.context.doSetState({csv_data: data})
+            // this.props.context.doSetState({csv_data: data})
+            this.props.context.push_dataset_to_array(data)
         }})
     }
     render(){

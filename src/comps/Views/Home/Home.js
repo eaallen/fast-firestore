@@ -69,11 +69,12 @@ class HomeBase extends React.Component{
                         </div>
                     </Col>
                     <Col sm={9}>
-                        <ShowData data="dw_data"/>
+                        {/* <ShowData data="dw_data"/> */}
+                        <ShowManyDatasets/>
                     </Col>
                 </Row>
                 <div>
-                    <ShowManyDatasets/>
+                    
                 </div>
                 <br/> <br/>
                 <Row noGutters>
