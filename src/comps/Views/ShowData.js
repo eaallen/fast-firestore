@@ -10,7 +10,7 @@ function ShowDataBase (props){
     }
     const handle_click = async () =>{
         
-        props.context.pushDataToFirestore('Testing', props.context[props.data])
+        props.context.pushDataToFirestore(props.context.new_collection, props.context[props.data])
     }
     const data = []
     for(let icount = 0; icount < 10; icount++){

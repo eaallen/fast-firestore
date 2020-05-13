@@ -53,11 +53,13 @@ export const AppContext = React.createContext()
           loadFakeData: this.loadFakeData,
           pushDataToFirestore: this.pushDataToFirestore,
           doSetState: this.doSetState,
+          push_dataset_to_array: this.push_dataset_to_array,
         }
         this.state = {
           test:'this is comming from the firbase context provider',
           loading: null,
           up_loading: null,
+          dataset_obj: {},
 
           // user: null
         }
@@ -86,6 +88,11 @@ export const AppContext = React.createContext()
       //call this method when connecting to another firebase app
       initializeOtherApp = async(otherConfig) =>{
         
+      }
+      push_dataset_to_array = (key,dataset)=>{
+        this.setState(state=> produce(state, draft=>{
+          draft.dataset_obj[key] = dataset
+        }))
       }
       doSetState = (value) =>{
         // key is string valve can be anything

@@ -41,7 +41,7 @@ export default function Home(props){
                         <h4>
                             Import Data from Source and review it
                         </h4>
-                        <FastFirestore/>
+                        <FastFirestore order={1}/>
                     </div>
                 </Col>
                 <Col sm={9}>
