@@ -6,36 +6,41 @@ class ShowManyDatasetsBase extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            
+            sub_coll: [],
         }
     }
     handle_click = async () =>{
         this.props.context.pushDataToFirestore(this.props.context.new_collection, this.props.context[this.props.data])
     }
+    make_sub_coll(){
 
+    }
     render(){
         if (!this.props.context.dataset_arr){
             return(
                 <div>test data here</div>
             )
         }
-        let data = []
-        for(let dataset of this.props.context.dataset_arr){
-            let sub_data = []
-            for(let icount = 0; icount < dataset.length; icount++){
-                sub_data.push(dataset[icount])
-            }
-            data.push(sub_data)
-        }
+        let data = this.props.context.dataset_arr
+        // for(let dataset of this.props.context.dataset_arr){
+        //     let sub_data = []
+        //     for(let icount = 0; icount < dataset.length; icount++){
+        //         sub_data.push(dataset[icount])
+        //     }
+        //     data.push(sub_data)
+        // }
         //data = [[{},{},{},{},{}],[{},{},{},{},{}],[{},{},{},{},{}]]
         console.log(data)
         return(
             <div>
-                <button onClick={e=>handle_click()}>Commit to firebase</button>
+                <button onClick={e=>this.handle_click()}>Commit to firebase</button>
                 {data.map((data_arr, idx)=> {
                     return(
                         <div key={idx}>
                             <h1>{idx}</h1>
+                            <div onClick={e=>this.make_sub_coll()}>
+                                pick me
+                            </div>
                             <Table striped bordered responsive size="sm">
                                 <thead>
                                     <tr>
