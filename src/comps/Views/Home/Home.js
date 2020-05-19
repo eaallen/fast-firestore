@@ -22,14 +22,6 @@ class HomeBase extends React.Component{
     render(){
         return(
             <div>
-                <div className="bg">
-    
-                    <h1 className="text-light greeting">
-                        Build your Firestore <br/>Database in Minutes.
-                    </h1>
-                    
-                </div>
-                
                 <Row noGutters>
                     <Col sm={3} className="pl-4 pr-4">
                         <div>
