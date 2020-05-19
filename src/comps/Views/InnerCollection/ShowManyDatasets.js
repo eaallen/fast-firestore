@@ -7,6 +7,7 @@ class ShowManyDatasetsBase extends React.Component{
         super(props)
         this.state = {
             sub_coll: [],
+            corr:{x:444,y:0}
         }
     }
     handle_click = async () =>{
@@ -15,7 +16,7 @@ class ShowManyDatasetsBase extends React.Component{
     make_sub_coll(e){
         e.persist()
         console.log("hello",e.clientX)
-        this.setState({corr:{x:e.clientX,y:e.clientY}, })
+        this.setState({corr:{x:e.clientX,y:e.clientY}})
     }
     render(){
         if (!this.props.context.dataset_obj){
@@ -32,7 +33,7 @@ class ShowManyDatasetsBase extends React.Component{
         //     data.push(sub_data)
         // }
         //data = [[{},{},{},{},{}],[{},{},{},{},{}],[{},{},{},{},{}]]
-        console.log(data)
+        console.log('state------------',this.state)
         return(
             <div>
                 <button onClick={e=>this.handle_click()}>Commit to firebase</button>
@@ -40,9 +41,6 @@ class ShowManyDatasetsBase extends React.Component{
                     return(
                         <div key={data_arr[0]}>
                             <h1>{data_arr[0]}</h1>
-                            <div onClick={e=>this.make_sub_coll()}>
-                                pick me
-                            </div>
                             <Table striped bordered responsive size="sm">
                                 <thead>
                                     <tr>
@@ -50,6 +48,9 @@ class ShowManyDatasetsBase extends React.Component{
                                             return(<>
                                                 <th key={item[0] + 'key'} onClick={e=>this.make_sub_coll(e)}>
                                                     {item[0]} ({typeof item[1]})
+                                                    <div style={{position:"hidden", top:this.state.corr.y.toString()+"px", left:this.state.corr.x.toString()+"px"}}>
+                                                        hi there
+                                                    </div>
                                                 </th>
                                                 
                                             </>)
