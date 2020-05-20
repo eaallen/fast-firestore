@@ -1,6 +1,8 @@
 import React from 'react'
 import { withFirebase } from '../../Firebase'
 import { Table,} from 'react-bootstrap'
+import { Toggle } from '../Tools/Toggle'
+import SubCollectionSelector from '../Tools/SubCollectionSelector'
 
 class ShowManyDatasetsBase extends React.Component{
     constructor(props){
@@ -36,6 +38,7 @@ class ShowManyDatasetsBase extends React.Component{
         console.log('state------------',this.state)
         return(
             <div>
+                
                 <button onClick={e=>this.handle_click()}>Commit to firebase</button>
                 {Object.entries(data).map((data_arr)=> {
                     return(
@@ -45,15 +48,18 @@ class ShowManyDatasetsBase extends React.Component{
                                 <thead>
                                     <tr>
                                         {Object.entries(data_arr[1][0]).map(item=>{
-                                            return(<>
-                                                <th key={item[0] + 'key'} onClick={e=>this.make_sub_coll(e)}>
-                                                    {item[0]} ({typeof item[1]})
-                                                    <div style={{position:"hidden", top:this.state.corr.y.toString()+"px", left:this.state.corr.x.toString()+"px"}}>
-                                                        hi there
-                                                    </div>
-                                                </th>
-                                                
-                                            </>)
+                                            return(
+                                                <Toggle key={item[0] + 'key'}>{tog=><>
+                                                    <th onClick={tog.toggle}>
+                                                        {item[0]} ({typeof item[1]})
+                                                    </th>
+                                                    <SubCollectionSelector 
+                                                        title={item[0]}
+                                                        control={tog} 
+                                                        datasets={data}
+                                                    />
+                                                </>}</Toggle>
+                                            )
                                         })}
                                     </tr>
                                 </thead>
@@ -90,37 +96,3 @@ export default ShowManyDatasets
 
 // The forwardRef is important!!
 // Dropdown needs access to the DOM node in order to position the Menu
-const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
-    <a
-      href=""
-      ref={ref}
-      onClick={(e) => {
-        e.preventDefault();
-        onClick(e);
-      }}
-    >
-      {children}
-    </a>
-  ));
-  
-  // forwardRef again here!
-  // Dropdown needs access to the DOM of the Menu to measure it
-  const CustomMenu = React.forwardRef(
-    ({ children, style, className, 'aria-labelledby': labeledBy }, ref) => {
-      const [value, setValue] = React.useState('');
-  
-      return (
-        <div
-          ref={ref}
-          style={style}
-          className={className}
-          aria-labelledby={labeledBy}
-        >
-          <ul className="list-unstyled">
-            {React.Children.toArray(children)}
-          </ul>
-        </div>
-      );
-    },
-  );
-  
