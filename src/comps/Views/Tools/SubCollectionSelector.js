@@ -1,53 +1,126 @@
 import React from 'react'
-import {Modal, Collapse} from 'react-bootstrap'
+import {Modal, Collapse, Button} from 'react-bootstrap'
 import { Toggle } from './Toggle'
-export default function SubCollectionSelector(props){
-    // const [show, setShow] = React.useState(props.show || false)
-    console.log(props.datasets)
-    return(<>
-        <Modal
-            size="md"
-            show={props.control.value}
-            onHide={props.control.toggle}
-            aria-labelledby="example-modal-sizes-title-sm"
-        >
-            <Modal.Header closeButton>
-            <Modal.Title id="example-modal-sizes-title-sm">
-                Create a sub collection for {props.title}
-            </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                {Object.entries(props.datasets).map(item=>{
-                    return(
-                        <div key={item}>
-                            <Toggle>{tog=><>
-                                <h5 onClick={tog.toggle}>
-                                    {item[0]}
-                                </h5>
-                                <Collapse in={tog.value} timeout={500}>
-                                    <div>
-                                        <div
-                                            style={{
-                                                overflowX:"hidden",
-                                                overflowY: "auto",
-                                                backgroundColor: "whitesmoke",
-                                            }}
-                                        >
-                                            {Object.keys(item[1][0]).map(sub_item =>{
-                                                return(
-                                                    <div className="pl-3" key={sub_item}>
-                                                        {sub_item}  
-                                                    </div>
-                                                )
-                                            })}
+import produce from 'immer'
+import { withFirebase } from '../../Firebase'
+class SubCollectionSelectorBase extends React.Component{
+    constructor(props){
+        super(props)
+        this.state={}
+    }
+    make_select = (column_name, table_name) => {
+        // console.log(column_name, table_name)
+        if(this.state[table_name] !== undefined && this.state[table_name][column_name] !==undefined){
+            this.setState(state=> produce(state, draft=>{
+                draft[table_name][column_name] = !draft[table_name][column_name]
+              }))
+        }else if (this.state[table_name] === undefined){
+            this.setState(state=> produce(state, draft=>{
+                draft[table_name]={}
+              }))
+            this.setState(state=> produce(state, draft=>{
+                draft[table_name][column_name] = true
+            }))
+        }else{      
+            this.setState(state=> produce(state, draft=>{
+                draft[table_name][column_name] = true
+            }))
+        }
+    }
+    show_select = (column_name, table_name) =>{
+        // changes background color so user knows what they have choosen
+        if(this.state[table_name] !== undefined && this.state[table_name][column_name] !==undefined){
+            if(this.state[table_name][column_name]){
+                return "lightgray"
+            }
+            return "whitesmoke"
+        }else{
+            return "whitesmoke"
+        }
+    }
+    save = () =>{
+        console.log("save", this.props.table_name, this.props.title)
+        let obj = {}
+        
+        for(const KEY in this.state){
+            let arr_for_sub_coll = []
+            for(const key in this.state[KEY]){
+                if(this.state[KEY][key]){
+                    arr_for_sub_coll.push(key)
+                }
+            }
+            obj[KEY] = arr_for_sub_coll
+        }
+        console.log(obj,"<----")
+        let load_sub_coll_settings = {
+            [this.props.table_name]:{[this.props.title]:obj}
+        }
+        console.log(load_sub_coll_settings)
+        this.props.context.doSetState("sub_coll_setitngs",load_sub_coll_settings)
+    }
+    render(){
+        console.log("this dot state------<>",this.state)
+        return(<>
+            <Modal
+                size="md"
+                show={this.props.control.value}
+                onHide={this.props.control.toggle}
+                aria-labelledby="example-modal-sizes-title-sm"
+            >
+                <Modal.Header closeButton>
+                <Modal.Title id="example-modal-sizes-title-sm">
+                    Create a sub collection for {this.props.title}
+                </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {Object.entries(this.props.datasets).map(item=>{
+                        return(
+                            <div key={item}>
+                                <Toggle>{tog=><>
+                                    <h5 onClick={tog.toggle}>
+                                        {item[0]}
+                                    </h5>
+                                    <Collapse in={tog.value} timeout={500}>
+                                        <div>
+                                            <div
+                                                style={{
+                                                    overflowX:"hidden",
+                                                    overflowY: "auto",
+                                                    backgroundColor: "whitesmoke",
+                                                }}
+                                            >
+                                                {Object.keys(item[1][0]).map((sub_item,idx) =>{
+                                                    return(
+                                                        
+                                                        <div
+                                                            className="pl-3" 
+                                                            key={idx}
+                                                            onClick={e=>this.make_select(sub_item, item[0])}
+                                                            style={{
+                                                                backgroundColor: this.show_select(sub_item, item[0])
+                                                            }}
+                                                        >
+                                                            {sub_item}  
+                                                        </div>
+                                                       
+                                                    )
+                                                })}
+                                            </div>
                                         </div>
-                                    </div>
-                                </Collapse>
-                            </>}</Toggle>
-                        </div>
-                    )
-                })}
-            </Modal.Body>
-        </Modal>
-    </>)
+                                    </Collapse>
+                                </>}</Toggle>
+                            </div>
+                        )
+                    })}
+                    <div className="text-right"> 
+                        <Button variant="light"> Cancel</Button>
+                        <Button onClick={e=>this.save()} variant="primary"> Save</Button>
+                    </div>
+                </Modal.Body>
+            </Modal>
+        </>)
+    
+    }
 }
+const SubCollectionSelector = withFirebase(SubCollectionSelectorBase)
+export default SubCollectionSelector

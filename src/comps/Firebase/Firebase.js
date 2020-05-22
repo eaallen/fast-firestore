@@ -60,6 +60,7 @@ export const AppContext = React.createContext()
           loading: null,
           up_loading: null,
           dataset_obj: {},
+          sub_coll_setitngs: {}, 
 
           // user: null
         }
@@ -94,12 +95,21 @@ export const AppContext = React.createContext()
           draft.dataset_obj[name] = dataset
         }))
       }
-      doSetState = (value) =>{
+      //              string         object
+      doSetState = (fb_state_val=null, value) =>{
         // key is string valve can be anything
-        for(const item of Object.entries(value)){
-          this.setState(state=> produce(state, draft=>{
-            draft[item[0]] = item[1]
-        }))
+        if(fb_state_val==="sub_coll_setitngs"){
+          for(const item of Object.entries(value)){
+            this.setState(state=> produce(state, draft=>{
+              draft.sub_coll_setitngs[item[0]] = item[1]
+            }))
+          }
+        }else{
+          for(const item of Object.entries(value)){
+            this.setState(state=> produce(state, draft=>{
+              draft[item[0]] = item[1]
+            }))
+          }
         }
       }
       updateUserAuth = (userInfo) =>{

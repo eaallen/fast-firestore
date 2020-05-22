@@ -38,7 +38,6 @@ class ShowManyDatasetsBase extends React.Component{
         console.log('state------------',this.state)
         return(
             <div>
-                
                 <button onClick={e=>this.handle_click()}>Commit to firebase</button>
                 {Object.entries(data).map((data_arr)=> {
                     return(
@@ -55,6 +54,7 @@ class ShowManyDatasetsBase extends React.Component{
                                                     </th>
                                                     <SubCollectionSelector 
                                                         title={item[0]}
+                                                        table_name={data_arr[0]}
                                                         control={tog} 
                                                         datasets={data}
                                                     />
