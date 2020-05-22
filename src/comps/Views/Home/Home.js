@@ -1,5 +1,5 @@
 import React from 'react'
-import {Row, Col} from 'react-bootstrap'
+import {Row, Col, Button} from 'react-bootstrap'
 import FastFirestore from '../Firestore/FastFirestore'
 import ShowData from '../ShowData'
 import ShowManyDatasets from '../InnerCollection/ShowManyDatasets'
@@ -19,6 +19,9 @@ class HomeBase extends React.Component{
             draft.arr_fast_firestore.push(<FastFirestore/>)
           }))
     }
+    handle_test = () =>{
+        this.props.context.pushDataWithSubCollectionToFirestore()
+    }
     render(){
         return(
             <div>
@@ -35,6 +38,9 @@ class HomeBase extends React.Component{
                         </div>
                     </Col>
                     <Col sm={9}>
+                        <Button onClick={e=>this.handle_test()}>
+                            test me pushDataWithSubCollectionToFirestore
+                        </Button>
                         pictures go here
                     </Col>
                 </Row>

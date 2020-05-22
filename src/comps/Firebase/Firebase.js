@@ -54,6 +54,7 @@ export const AppContext = React.createContext()
           pushDataToFirestore: this.pushDataToFirestore,
           doSetState: this.doSetState,
           push_dataset_to_obj: this.push_dataset_to_obj,
+          pushDataWithSubCollectionToFirestore: this.pushDataWithSubCollectionToFirestore,
         }
         this.state = {
           test:'this is comming from the firbase context provider',
@@ -213,15 +214,37 @@ export const AppContext = React.createContext()
         }
       }
       pushDataToFirestore = async(collection_name, arr_data) =>{
-        // make a collection for the data
         let sec = firebase.initializeApp(this.state.second_config, "secondary");
         console.log(sec.name);    // "otherProject name"
         let secondaryDatabase = sec.firestore();
+        // make a collection for the data
         const collection = secondaryDatabase.collection(collection_name)
         let i = 1
         for(const obj of arr_data){
           await collection.add(obj)
           console.log(i++)
+        }
+      }
+      pushDataWithSubCollectionToFirestore = async () =>{
+        let sec = firebase.initializeApp(this.state.second_config, "secondary");
+        console.log(sec.name);    // "otherProject name"
+        let secondaryDatabase = sec.firestore();
+        console.log("in pushDataWithSubCollectionToFirestore()")
+        for(const KEY in this.state.sub_coll_setitngs){ // for gettign the tables
+          const collection = secondaryDatabase.collection(KEY)
+          let alpha_data =  this.state.dataset_obj[KEY]
+          for(const key in this.state.sub_coll_setitngs[KEY]){ //for getting the columns
+
+            //                                           column 
+            for(const seting_key in this.state.sub_coll_setitngs[KEY][key]){ // for gettign thr array's
+              //                                              array of settings
+              for(const item of this.state.sub_coll_setitngs[KEY][key][seting_key]){ //for gettign the items of the array
+                
+
+              }
+              
+            }
+          }
         }
       }
       async componentDidMount(){
