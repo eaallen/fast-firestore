@@ -14,18 +14,20 @@ class SubCollectionSelectorBase extends React.Component{
             this.setState(state=> produce(state, draft=>{
                 draft[table_name][column_name] = !draft[table_name][column_name]
               }))
-        }else if (this.state[table_name] === undefined){
+        }else{
             this.setState(state=> produce(state, draft=>{
                 draft[table_name]={}
               }))
             this.setState(state=> produce(state, draft=>{
                 draft[table_name][column_name] = true
             }))
-        }else{      
-            this.setState(state=> produce(state, draft=>{
-                draft[table_name][column_name] = true
-            }))
         }
+        //enable below t0 make it so you can pick mutilple columns pre table
+        // }else{      
+        //     this.setState(state=> produce(state, draft=>{
+        //         draft[table_name][column_name] = true
+        //     }))
+        // }
     }
     show_select = (column_name, table_name) =>{
         // changes background color so user knows what they have choosen

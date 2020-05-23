@@ -1,0 +1,18 @@
+settings[
+    {
+        Parent_Collection_Name:  (string)
+        Parent_Connection_Column: (string)
+        Child_Collections: {
+            Child_Collection_Name: column name connection (string)
+            Child_Collection_Name: column name connection (string)
+        }
+    },
+    {
+        Parent_Collection: Parent_Connection_Column (string)
+        Child_Collections: {
+            Child_Collection_Name: column name connection (string)
+            Child_Collection_Name: column name connection (string)
+        }
+    },
+    
+]

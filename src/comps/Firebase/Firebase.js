@@ -213,7 +213,7 @@ export const AppContext = React.createContext()
           console.error(e)
         }
       }
-      pushDataToFirestore = async(collection_name, arr_data) =>{
+      pushDataToFirestore = async(collection_name, arr_data) => {
         let sec = firebase.initializeApp(this.state.second_config, "secondary");
         console.log(sec.name);    // "otherProject name"
         let secondaryDatabase = sec.firestore();
@@ -226,23 +226,23 @@ export const AppContext = React.createContext()
         }
       }
       pushDataWithSubCollectionToFirestore = async () =>{
-        let sec = firebase.initializeApp(this.state.second_config, "secondary");
-        console.log(sec.name);    // "otherProject name"
-        let secondaryDatabase = sec.firestore();
         console.log("in pushDataWithSubCollectionToFirestore()")
         for(const KEY in this.state.sub_coll_setitngs){ // for gettign the tables
-          const collection = secondaryDatabase.collection(KEY)
-          let alpha_data =  this.state.dataset_obj[KEY]
-          for(const key in this.state.sub_coll_setitngs[KEY]){ //for getting the columns
+          console.log("KEY",KEY)
+          let parent_ds = this.state.dataset_obj[KEY]
+          for(let obj of parent_ds){
+            // let document = this.db.collection(KEY).doc()
+            for(const key in this.state.sub_coll_setitngs[KEY]){ //for getting the columns
+              console.log("key",key)
+              console.log("obj",obj)
 
-            //                                           column 
-            for(const seting_key in this.state.sub_coll_setitngs[KEY][key]){ // for gettign thr array's
-              //                                              array of settings
-              for(const item of this.state.sub_coll_setitngs[KEY][key][seting_key]){ //for gettign the items of the array
-                
-
+              console.log("obj[key]",obj[key])
+              for(const seting_key in this.state.sub_coll_setitngs[KEY][key]){ // for gettign thr array's
+                console.log("seting_key",seting_key)
+                for(const item of this.state.sub_coll_setitngs[KEY][key][seting_key]){ //for gettign the items of the array
+                  console.log("item",item)
+                }
               }
-              
             }
           }
         }
