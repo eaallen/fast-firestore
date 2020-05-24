@@ -19,14 +19,14 @@ export const AppContext = React.createContext()
       measurementId: "G-BB39S0R1HQ",
     };
     const secondary_config = {
-      apiKey: "AIzaSyA4aNSHB21tyEqWJA7LYHet658ZDcdV5rM",
-      authDomain: "this-is-junk.firebaseapp.com",
-      databaseURL: "https://this-is-junk.firebaseio.com",
-      projectId: "this-is-junk",
-      storageBucket: "this-is-junk.appspot.com",
-      messagingSenderId: "445385097267",
-      appId: "1:445385097267:web:385b46a6dab106e6666346",
-      measurementId: "G-WVF6V66HWH"
+      apiKey: "AIzaSyBNqOn-qUE1KbHriylJy_KWLXy8GnyC0mM",
+      authDomain: "custom-ring-design.firebaseapp.com",
+      databaseURL: "https://custom-ring-design.firebaseio.com",
+      projectId: "custom-ring-design",
+      storageBucket: "custom-ring-design.appspot.com",
+      messagingSenderId: "401445854653",
+      appId: "1:401445854653:web:7aebdf9d897da9047946d4",
+      measurementId: "G-0V6YPGB45G"
     }
    
     class Firebase extends React.Component {
@@ -55,6 +55,7 @@ export const AppContext = React.createContext()
           doSetState: this.doSetState,
           push_dataset_to_obj: this.push_dataset_to_obj,
           pushDataWithSubCollectionToFirestore: this.pushDataWithSubCollectionToFirestore,
+          doSetStateArray:this.doSetStateArray, 
         }
         this.state = {
           test:'this is comming from the firbase context provider',
@@ -62,7 +63,7 @@ export const AppContext = React.createContext()
           up_loading: null,
           dataset_obj: {},
           sub_coll_setitngs: {}, 
-
+          arr_settings: [],
           // user: null
         }
         // console.log('here')
@@ -112,6 +113,11 @@ export const AppContext = React.createContext()
             }))
           }
         }
+      }
+      doSetStateArray = (item) =>{
+        this.setState(state=> produce(state, draft=>{
+          draft.arr_settings.push(item)
+        }))
       }
       updateUserAuth = (userInfo) =>{
         // this.state.auth_user = userInfo
@@ -214,42 +220,42 @@ export const AppContext = React.createContext()
         }
       }
       pushDataToFirestore = async(collection_name, arr_data) => {
-        let sec = firebase.initializeApp(this.state.second_config, "secondary");
-        console.log(sec.name);    // "otherProject name"
-        let secondaryDatabase = sec.firestore();
-        // make a collection for the data
-        const collection = secondaryDatabase.collection(collection_name)
-        let i = 1
-        for(const obj of arr_data){
-          await collection.add(obj)
-          console.log(i++)
-        }
+        // let sec = firebase.initializeApp(this.state.second_config, "secondary");
+        // console.log(sec.name);    // "otherProject name"
+        // let secondaryDatabase = sec.firestore();
+        // // make a collection for the data
+        // const collection = secondaryDatabase.collection(collection_name)
+        // let i = 1
+        // for(const obj of arr_data){
+        //   await collection.add(obj)
+        //   console.log(i++)
+        // }
       }
       pushDataWithSubCollectionToFirestore = async () =>{
         console.log("in pushDataWithSubCollectionToFirestore()")
-        for(const KEY in this.state.sub_coll_setitngs){ // for gettign the tables
-          console.log("KEY",KEY)
-          let parent_ds = this.state.dataset_obj[KEY]
-          for(let obj of parent_ds){
-            // let document = this.db.collection(KEY).doc()
-            for(const key in this.state.sub_coll_setitngs[KEY]){ //for getting the columns
-              console.log("key",key)
-              console.log("obj",obj)
-
-              console.log("obj[key]",obj[key])
-              for(const seting_key in this.state.sub_coll_setitngs[KEY][key]){ // for gettign thr array's
-                console.log("seting_key",seting_key)
-                for(const item of this.state.sub_coll_setitngs[KEY][key][seting_key]){ //for gettign the items of the array
-                  console.log("item",item)
+        let sec = firebase.initializeApp(secondary_config, "testing_only");
+        console.log(sec.name);    // "otherProject name"
+        let secondaryDatabase = sec.firestore();
+        for(const item of this.state.arr_settings){
+          for( const key in item.child_collections){
+            console.log(item.parent_collection_name, key)
+            for(const p_data_row of this.state.dataset_obj[item.parent_collection_name]){
+              const document = secondaryDatabase.collection(item.parent_collection_name).doc()
+              for(const c_data_row of this.state.dataset_obj[key]){
+                const sub = secondaryDatabase.collection(`${item.parent_collection_name}/${document.id}/${key}`)
+                if(c_data_row[item.child_collections[key]] === p_data_row[[item.parent_connection_column]]){
+                  sub.add(c_data_row)
+                  console.log("add")
                 }
               }
+              document.set(p_data_row)
             }
           }
         }
       }
       async componentDidMount(){
         axios.defaults.headers.post['Content-Type'] = 'application/json';
-        axios.defaults.method= 'post'    
+        axios.defaults.method = 'post'    
 
       // STUFF YOU DO RIGHT AT THE BEGINING 
       }

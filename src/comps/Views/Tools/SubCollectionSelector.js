@@ -6,7 +6,9 @@ import { withFirebase } from '../../Firebase'
 class SubCollectionSelectorBase extends React.Component{
     constructor(props){
         super(props)
-        this.state={}
+        this.state={
+            
+        }
     }
     make_select = (column_name, table_name) => {
         // console.log(column_name, table_name)
@@ -42,23 +44,25 @@ class SubCollectionSelectorBase extends React.Component{
     }
     save = () =>{
         console.log("save", this.props.table_name, this.props.title)
-        let obj = {}
+        let child_collections = {}
         
         for(const KEY in this.state){
             let arr_for_sub_coll = []
             for(const key in this.state[KEY]){
                 if(this.state[KEY][key]){
                     arr_for_sub_coll.push(key)
+                    child_collections[KEY] = key
                 }
             }
-            obj[KEY] = arr_for_sub_coll
         }
-        console.log(obj,"<----")
+        console.log(child_collections,"<----")
         let load_sub_coll_settings = {
-            [this.props.table_name]:{[this.props.title]:obj}
+            child_collections:child_collections,
+            parent_collection_name: this.props.table_name,
+            parent_connection_column: this.props.title
         }
         console.log(load_sub_coll_settings)
-        this.props.context.doSetState("sub_coll_setitngs",load_sub_coll_settings)
+        this.props.context.doSetStateArray(load_sub_coll_settings)
     }
     render(){
         console.log("this dot state------<>",this.state)
