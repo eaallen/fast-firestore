@@ -38,7 +38,7 @@ class HomeBase extends React.Component{
                         </div>
                     </Col>
                     <Col sm={9}>
-                        <Button onClick={e=>this.handle_test()}>
+                        <Button onClick={e=>this.handle_test()} disabled={this.props.context.arr_settings[0]? false : true}>
                             test me pushDataWithSubCollectionToFirestore
                         </Button>
                         pictures go here

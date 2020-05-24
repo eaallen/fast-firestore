@@ -237,21 +237,22 @@ export const AppContext = React.createContext()
         console.log(sec.name);    // "otherProject name"
         let secondaryDatabase = sec.firestore();
         for(const item of this.state.arr_settings){
-          for( const key in item.child_collections){
-            console.log(item.parent_collection_name, key)
-            for(const p_data_row of this.state.dataset_obj[item.parent_collection_name]){
-              const document = secondaryDatabase.collection(item.parent_collection_name).doc()
+          for(const p_data_row of this.state.dataset_obj[item.parent_collection_name]){
+            const document = secondaryDatabase.collection(item.parent_collection_name).doc()
+            for( const key in item.child_collections){
+              console.log(item.parent_collection_name, key)
+              const sub = secondaryDatabase.collection(`${item.parent_collection_name}/${document.id}/${key}`) // creating the sub colelction
               for(const c_data_row of this.state.dataset_obj[key]){
-                const sub = secondaryDatabase.collection(`${item.parent_collection_name}/${document.id}/${key}`)
                 if(c_data_row[item.child_collections[key]] === p_data_row[[item.parent_connection_column]]){
                   sub.add(c_data_row)
                   console.log("add")
                 }
               }
-              document.set(p_data_row)
             }
+            document.set(p_data_row)
           }
         }
+        this.setState({arr_settings:[]})
       }
       async componentDidMount(){
         axios.defaults.headers.post['Content-Type'] = 'application/json';
