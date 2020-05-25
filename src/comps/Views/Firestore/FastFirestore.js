@@ -32,14 +32,14 @@ class FastFirestoreBase extends React.Component{
         console.log('click')
         let resp = await axios({
             url: `https://api.data.world/v0/sql/${this.state.user_name}/${this.state.dw_data_set}`,
-            data:{query: `SELECT * FROM ${this.state.file_name} Limit 10`},
+            data:{query: `SELECT * FROM ${this.state.file_name}`},
             // url: `https://api.data.world/v0/sql/eaallen/kandykane`,
             // data:{query: `SELECT * FROM customer Limit 10`},
             headers:{
                 Authorization: "Bearer "+"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcm9kLXVzZXItY2xpZW50OmVhYWxsZW4iLCJpc3MiOiJhZ2VudDplYWFsbGVuOjo0YzBlYWQ5YS1kODE5LTQzMWMtYjVmOS0zNGEwZDE5MzRkOGQiLCJpYXQiOjE1Nzc3MTc5OTcsInJvbGUiOlsidXNlcl9hcGlfcmVhZCIsInVzZXJfYXBpX3dyaXRlIl0sImdlbmVyYWwtcHVycG9zZSI6dHJ1ZSwic2FtbCI6e319.XbV9G84LNvqN6RREjPKFlDLQrTtzUu5KVu46xDS7TOtGnMZ94h1PrNaAkQ6zT-79QOM7Ku2GrZdivguQ_o9jsw" //this.state.api_key
             },
         })
-        console.log('response from data.world',resp.data)
+        console.log('response from data.world',resp)
         this.props.context.push_dataset_to_obj(this.state.dw_data_set+"_"+this.state.file_name ,resp.data)
     }
    
