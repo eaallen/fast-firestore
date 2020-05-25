@@ -3,6 +3,7 @@ import {Toggle} from './Toggle'
 import SubCollectionSelector from './SubCollectionSelector'
 import { withFirebase } from '../../Firebase'
 import { Row, Col, Collapse } from 'react-bootstrap'
+import DetailModal from './DetailModal'
 class InfoCardBase extends React.Component{
     constructor(props){
         super(props)
@@ -40,7 +41,10 @@ class InfoCardBase extends React.Component{
                             <div>
                                 <div className="pl-3" > 
                                     <div>Help</div>
-                                    <div>Details</div>
+                                    <Toggle>{deet=><>
+                                        <div onClick={deet.toggle}>Details</div>
+                                        <DetailModal show={deet.value} control={deet} home_dataset={this.props.head}/>
+                                    </>}</Toggle>
                                     <div>Push to Firestore</div>
                                 </div>
                             </div>
