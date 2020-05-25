@@ -1,6 +1,6 @@
 import React from 'react'
 import { withFirebase } from '../../Firebase'
-import { Table,} from 'react-bootstrap'
+import { Table, CardColumns,} from 'react-bootstrap'
 import { Toggle } from '../Tools/Toggle'
 import SubCollectionSelector from '../Tools/SubCollectionSelector'
 import InfoCard from '../Tools/InfoCard'
@@ -40,54 +40,13 @@ class ShowManyDatasetsBase extends React.Component{
         return(
             <div>
                 <button onClick={e=>this.handle_click()}>Commit to firebase</button>
-                {Object.entries(data).map((data_arr)=> {
-                    return(
-                        <div key={data_arr[0]}>
-                            <InfoCard head={data_arr[0]} body={data_arr[1][0]}/>
-                            <h1>{data_arr[0]}</h1>
-                            <Table striped bordered responsive size="sm">
-                                <thead>
-                                    <tr>
-                                        {Object.entries(data_arr[1][0]).map(item=>{
-                                            return(
-                                                <Toggle key={item[0] + 'key'}>{tog=><>
-                                                    <th onClick={tog.toggle}>
-                                                        {item[0]} ({typeof item[1]})
-                                                    </th>
-                                                    <SubCollectionSelector 
-                                                        title={item[0]}
-                                                        table_name={data_arr[0]}
-                                                        control={tog} 
-                                                        datasets={data}
-                                                    />
-                                                </>}</Toggle>
-                                            )
-                                        })}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {data_arr[1].map((row,idx)=>{
-                                        return(
-                                            <tr key={idx}>
-                                                {Object.values(row).map((item,idx)=>{
-                                                    return(
-                                                        <td key={idx}>
-                                                            {item}
-                                                        </td>
-                                                    )
-                                                })}
-                                            </tr>
-                                        )
-                                    })}
-                                </tbody>
-                            </Table>
-                            <p className="text-left">
-                                preview on shows 10 rows
-                            </p>
-                        </div>
-                    )
-                })}
-
+                <CardColumns>
+                    {Object.entries(data).map((data_arr)=> {
+                        return(
+                            <InfoCard key={data_arr[0]} head={data_arr[0]} body={data_arr[1][0]}/>
+                        )
+                    })}
+                </CardColumns>
             </div>
 
         )

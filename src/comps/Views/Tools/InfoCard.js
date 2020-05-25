@@ -2,7 +2,7 @@ import React from 'react'
 import {Toggle} from './Toggle'
 import SubCollectionSelector from './SubCollectionSelector'
 import { withFirebase } from '../../Firebase'
-import { Row, Col } from 'react-bootstrap'
+import { Row, Col, Collapse } from 'react-bootstrap'
 class InfoCardBase extends React.Component{
     constructor(props){
         super(props)
@@ -10,7 +10,7 @@ class InfoCardBase extends React.Component{
 
     render(){
         return(
-            <div className="infocard">
+            <div className="card infocard">
                 <div className="infocard-header">
                    <h5>{this.props.head}</h5> 
                 </div>
@@ -19,7 +19,7 @@ class InfoCardBase extends React.Component{
                         return(
                             <Toggle key={item[0] + 'key'}>{tog=><>
                                 <div className="infocard-data data-odd" onClick={tog.toggle}>
-                                    {item[0]} ({typeof item[1]}) <span className="hidden-color"><i className="fas fa-database" title="Add sub-collection"></i></span>
+                                    <strong>{item[0]}</strong> ({typeof item[1]}) <span className="hidden-color"><i className="fas fa-database" title="Add sub-collection"></i></span>
                                 </div>
                                 <SubCollectionSelector 
                                     title={item[0]}
@@ -32,9 +32,20 @@ class InfoCardBase extends React.Component{
                     })}
                 </div>
                 <div className="infocard-footer text-left">
-                    <Row className="text-center">
-                        <Col>View Data</Col><Col>Push to Firebase</Col>
-                    </Row>
+                    <Toggle>{footTog=><>
+                        <div onClick={footTog.toggle}>
+                            Tools
+                        </div>
+                        <Collapse in={footTog.value} timeout={500}>
+                            <div>
+                                <div className="pl-3" > 
+                                    <div>Help</div>
+                                    <div>Details</div>
+                                    <div>Push to Firestore</div>
+                                </div>
+                            </div>
+                        </Collapse>
+                    </>}</Toggle>
                 </div>
             </div>
         )

@@ -35,11 +35,11 @@ class SubCollectionSelectorBase extends React.Component{
         // changes background color so user knows what they have choosen
         if(this.state[table_name] !== undefined && this.state[table_name][column_name] !==undefined){
             if(this.state[table_name][column_name]){
-                return "lightgray"
+                return "#43a8ec"
             }
-            return "whitesmoke"
+            return "#a6dbff"
         }else{
-            return "whitesmoke"
+            return "#a6dbff"
         }
     }
     save = () =>{
@@ -67,39 +67,33 @@ class SubCollectionSelectorBase extends React.Component{
     render(){
         console.log("this dot state------<>",this.state)
         return(<>
-            <Modal
-                size="md"
-                show={this.props.control.value}
-                onHide={this.props.control.toggle}
-                aria-labelledby="example-modal-sizes-title-sm"
+            <Collapse in ={this.props.control.value}
+                
             >
-                <Modal.Header closeButton>
-                <Modal.Title id="example-modal-sizes-title-sm">
-                    Create a sub collection for {this.props.title}
-                </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
+               <div>
+                <div className=" bg-infocard">
                     {Object.entries(this.props.datasets).map(item=>{
                         return(
-                            <div key={item}>
+                            <div key={item} className=" bg-infocard">
                                 <Toggle>{tog=><>
-                                    <h5 onClick={tog.toggle}>
+                                    <div onClick={tog.toggle} className="pl-3 pointer">
                                         {item[0]}
-                                    </h5>
+                                    </div>
                                     <Collapse in={tog.value} timeout={500}>
                                         <div>
-                                            <div
+                                            <div 
+                                                className="bg-infocard"
                                                 style={{
                                                     overflowX:"hidden",
                                                     overflowY: "auto",
-                                                    backgroundColor: "whitesmoke",
+                                                    
                                                 }}
                                             >
                                                 {Object.keys(item[1][0]).map((sub_item,idx) =>{
                                                     return(
                                                         
                                                         <div
-                                                            className="pl-3" 
+                                                            className="pl-4 pointer" 
                                                             key={idx}
                                                             onClick={e=>this.make_select(sub_item, item[0])}
                                                             style={{
@@ -122,8 +116,9 @@ class SubCollectionSelectorBase extends React.Component{
                         <Button variant="light"> Cancel</Button>
                         <Button onClick={e=>this.save()} variant="primary"> Save</Button>
                     </div>
-                </Modal.Body>
-            </Modal>
+                </div>
+                </div>
+            </Collapse>
         </>)
     
     }

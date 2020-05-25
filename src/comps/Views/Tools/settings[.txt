@@ -17,3 +17,45 @@ settings[
     },
     
 ]
+
+
+<h1>{data_arr[0]}</h1>
+                            <Table striped bordered responsive size="sm">
+                                <thead>
+                                    <tr>
+                                        {Object.entries(data_arr[1][0]).map(item=>{
+                                            return(
+                                                <Toggle key={item[0] + 'key'}>{tog=><>
+                                                    <th onClick={tog.toggle}>
+                                                        {item[0]} ({typeof item[1]})
+                                                    </th>
+                                                    <SubCollectionSelector 
+                                                        title={item[0]}
+                                                        table_name={data_arr[0]}
+                                                        control={tog} 
+                                                        datasets={data}
+                                                    />
+                                                </>}</Toggle>
+                                            )
+                                        })}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {data_arr[1].map((row,idx)=>{
+                                        return(
+                                            <tr key={idx}>
+                                                {Object.values(row).map((item,idx)=>{
+                                                    return(
+                                                        <td key={idx}>
+                                                            {item}
+                                                        </td>
+                                                    )
+                                                })}
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </Table>
+                            <p className="text-left">
+                                preview on shows 10 rows
+                            </p>

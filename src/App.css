@@ -73,6 +73,9 @@
 .data-even{
   background-color: #43a8ec;
 }
+.bg-infocard{
+  background-color: #a6dbff;
+}
 .infocard-data:hover{
   background-color: #a6dbff;
 }
@@ -80,6 +83,27 @@
   padding-left: 1rem;
   color: #43a8ec;
 }
+.pointer{
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 div::-webkit-scrollbar {
   width: 2px;
 }
