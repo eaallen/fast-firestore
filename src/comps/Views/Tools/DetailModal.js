@@ -8,6 +8,7 @@ class DetailModalBase extends React.Component{
     render(){
         const data = this.props.context.dataset_obj[this.props.home_dataset]
         const info = this.props.context.dataset_info_obj[this.props.home_dataset]
+        const arr_sub_coll_info = this.props.context.arr_settings.filter(item=>item.parent_collection_name === this.props.home_dataset)
         let row_count
         return(
             <Modal 
@@ -19,29 +20,52 @@ class DetailModalBase extends React.Component{
                     <Modal.Title>Details</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Row>
-                        <Col className="text-right font-weight-bold"> Dataset Name:</Col><Col className="text-left">{this.props.home_dataset}</Col>
-                    </Row>
-                    <Row>
-                        <Col className="text-right font-weight-bold"> Number of Columns:</Col><Col className="text-left">{Object.keys(data[0]).length}</Col>
-                    </Row>
-                    <Row>
-                        <Col className="text-right font-weight-bold">Number of Rows:</Col><Col className="text-left">{data.length}</Col>
-                    </Row>
-                    {
-                        info?
-                        <>
-                            <Row>
-                                <Col className="text-right font-weight-bold">Size in Bytes:</Col><Col className="text-left">{info.size}</Col>
-                            </Row>
-                            <Row>
-                                <Col className="text-right font-weight-bold">Original File Name:</Col><Col className="text-left">{info.name}</Col>
-                            </Row>
-                        </>
-                        :
-                        <>
-                        </>
-                    }
+                    <div>
+                        <Row>
+                            <Col className="text-right font-weight-bold"> Dataset Name:</Col><Col className="text-left">{this.props.home_dataset}</Col>
+                        </Row>
+                        <Row>
+                            <Col className="text-right font-weight-bold"> Number of Columns:</Col><Col className="text-left">{Object.keys(data[0]).length}</Col>
+                        </Row>
+                        <Row>
+                            <Col className="text-right font-weight-bold">Number of Rows:</Col><Col className="text-left">{data.length}</Col>
+                        </Row>
+                        {
+                            info?
+                            <>
+                                <Row>
+                                    <Col className="text-right font-weight-bold">Size in Bytes:</Col><Col className="text-left">{info.size}</Col>
+                                </Row>
+                                <Row>
+                                    <Col className="text-right font-weight-bold">Original File Name:</Col><Col className="text-left">{info.name}</Col>
+                                </Row>
+                            </>
+                            :
+                            <>
+                            </>
+                        }
+                    </div>
+                    <div>
+                        {arr_sub_coll_info.map((item,idx)=>{
+                            return(<div key={idx}>
+                                <br/>
+                                <Row>
+                                    <Col className="text-right font-weight-bold"> Sub-collection Host:</Col><Col className="text-left">{item.parent_connection_column}</Col>
+                                </Row>
+                                {Object.entries(item.child_collections).map((sub_item, jdx) =>{
+                                    return(<div key={jdx}>
+                                        <Row>
+                                            <Col className="text-right font-weight-bold"> Sub-collection Name:</Col><Col className="text-left">{sub_item[0]}</Col>
+                                        </Row>
+                                        <Row>
+                                            <Col className="text-right font-weight-bold"> Joining Column:</Col><Col className="text-left">{sub_item[1]}</Col>
+                                        </Row>
+                                    </div>)
+                                })}
+        
+                            </div>)
+                        })}
+                    </div>
                     <Table striped bordered responsive size="sm">
                         <thead >
                             <tr className="position-sticky sticky-top">

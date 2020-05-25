@@ -8,8 +8,20 @@ class InfoCardBase extends React.Component{
     constructor(props){
         super(props)
     }
-
+    show_color = (asi,col_name) =>{
+        // display a diferent className if the colukmn name has a sub colection 
+        if(asi.length === 0){
+            return "hidden-color"
+        }
+        for(const item of asi){
+            if(item.parent_connection_column === col_name){
+                return "show-color"
+            }
+        }
+        return "hidden-color"
+    }
     render(){
+        const arr_sub_info = this.props.context.arr_settings.filter(item=>item.parent_collection_name === this.props.head)
         return(
             <div className="card infocard">
                 <div className="infocard-header">
@@ -20,7 +32,7 @@ class InfoCardBase extends React.Component{
                         return(
                             <Toggle key={item[0] + 'key'}>{tog=><>
                                 <div className="infocard-data data-odd" onClick={tog.toggle}>
-                                    <strong>{item[0]}</strong> ({typeof item[1]}) <span className="hidden-color"><i className="fas fa-database" title="Add sub-collection"></i></span>
+                                    <strong>{item[0]}</strong> ({typeof item[1]}) <span className={this.show_color(arr_sub_info, item[0])}><i className="fas fa-database" title="Add sub-collection"></i></span>
                                 </div>
                                 <SubCollectionSelector 
                                     title={item[0]}

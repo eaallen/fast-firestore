@@ -83,6 +83,10 @@
   padding-left: 1rem;
   color: #43a8ec;
 }
+.show-color{
+  padding-left: 1rem;
+  color: #ecc443;
+}
 .pointer{
   cursor: pointer;
 }

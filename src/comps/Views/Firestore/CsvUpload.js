@@ -6,7 +6,7 @@ class CsvUploadBase extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            csv_name: ""
+           
         }
     }
 
@@ -46,14 +46,6 @@ class CsvUploadBase extends React.Component{
         return(
             <div>
                 <h3>Import from Local CSV file</h3>
-                <Form.Label>
-                    Dataset Name
-                </Form.Label>
-                <Form.Control
-                    value={this.state.csv_name}
-                    onChange={e=>this.handle_change(e)}
-                    name="csv_name"
-                />
                 <label htmlFor="myfile">Select a file: </label>
                 <input type="file" id="myfile" name="myfile" onChange={e=>this.see_data(e)}/><br/><br/>                
             </div>
