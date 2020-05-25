@@ -25,7 +25,8 @@ class InfoCardBase extends React.Component{
         return(
             <div className="card infocard">
                 <div className="infocard-header">
-                   <h5>{this.props.head}</h5> 
+                   <h5>{this.props.head}</h5>
+                   <div><i className="far fa-window-close delete-dataset"></i></div>
                 </div>
                 <div className="infocard-body">
                     {Object.entries(this.props.body).map(item=>{
