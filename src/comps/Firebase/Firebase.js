@@ -62,6 +62,7 @@ export const AppContext = React.createContext()
           loading: null,
           up_loading: null,
           dataset_obj: {},
+          dataset_info_obj: {},
           sub_coll_setitngs: {}, 
           arr_settings: [],
           // user: null
@@ -105,6 +106,13 @@ export const AppContext = React.createContext()
             this.setState(state=> produce(state, draft=>{
               draft.sub_coll_setitngs[item[0]] = item[1]
             }))
+          }
+        }else if(fb_state_val==="dataset_info_obj"){
+          for(const key in value){
+            this.setState(state=> produce(state, draft=>{
+              draft.dataset_info_obj[key] = value[key]
+            }))
+  
           }
         }else{
           for(const item of Object.entries(value)){
