@@ -7,6 +7,7 @@ import CsvUpload from '../Firestore/CsvUpload'
 import ConfigCollection from '../Firestore/ConfigCollection'
 import produce from 'immer'
 import { withFirebase } from '../../Firebase'
+import InfoCard from '../Tools/InfoCard'
 class HomeBase extends React.Component{
     constructor(props){
         super(props)
@@ -42,6 +43,8 @@ class HomeBase extends React.Component{
                             test me pushDataWithSubCollectionToFirestore
                         </Button>
                         pictures go here
+                        <br/>
+                        
                     </Col>
                 </Row>
                 <br/> <br/>

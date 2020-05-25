@@ -3,6 +3,7 @@ import { withFirebase } from '../../Firebase'
 import { Table,} from 'react-bootstrap'
 import { Toggle } from '../Tools/Toggle'
 import SubCollectionSelector from '../Tools/SubCollectionSelector'
+import InfoCard from '../Tools/InfoCard'
 
 class ShowManyDatasetsBase extends React.Component{
     constructor(props){
@@ -42,6 +43,7 @@ class ShowManyDatasetsBase extends React.Component{
                 {Object.entries(data).map((data_arr)=> {
                     return(
                         <div key={data_arr[0]}>
+                            <InfoCard head={data_arr[0]} body={data_arr[1][0]}/>
                             <h1>{data_arr[0]}</h1>
                             <Table striped bordered responsive size="sm">
                                 <thead>

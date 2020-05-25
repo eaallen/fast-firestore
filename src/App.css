@@ -41,3 +41,60 @@
     transform: rotate(360deg);
   }
 }
+
+.infocard{
+  width: 300px;
+  
+  overflow-x: visible;
+}
+.infocard-header{
+  background-color: #0060a0;
+  color: #ffffff;
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+}
+.infocard-body{
+  text-align: left;
+  max-height: 500px;
+  overflow-y: auto;
+}
+.infocard-footer{
+  padding-top: .25rem;
+  color: #ffffff;
+  background-color: #0060a0;
+}
+.infocard-data{
+  padding-left: .5rem;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  background-color: #43a8ec;
+  transition: .35s;
+}
+.data-even{
+  background-color: #43a8ec;
+}
+.infocard-data:hover{
+  background-color: #a6dbff;
+}
+.hidden-color{
+  padding-left: 1rem;
+  color: #43a8ec;
+}
+div::-webkit-scrollbar {
+  width: 2px;
+}
+
+/* Track */
+div::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+div::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+div::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
