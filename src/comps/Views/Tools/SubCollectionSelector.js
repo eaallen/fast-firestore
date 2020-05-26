@@ -79,9 +79,10 @@ class SubCollectionSelectorBase extends React.Component{
             >
                <div>
                 <div className=" bg-infocard">
-                    {Object.entries(this.props.datasets).map(item=>{
+                    {Object.entries(this.props.context.super_ds).map(item=>{
+                        console.log("this.props.context.super_ds item-->",item)
                         return(
-                            <div key={item} className=" bg-infocard">
+                            <div key={item[0]+'key'} className=" bg-infocard">
                                 <Toggle>{tog=><>
                                     <div onClick={tog.toggle} className="pl-3 pointer">
                                         {item[0]}
@@ -96,7 +97,8 @@ class SubCollectionSelectorBase extends React.Component{
                                                     
                                                 }}
                                             >
-                                                {Object.keys(item[1][0]).map((sub_item,idx) =>{
+                                                {Object.keys(item[1].data[0]).map((sub_item,idx) =>{
+                                                    console.log("sub_item++++>",sub_item)
                                                     return(
                                                         
                                                         <div

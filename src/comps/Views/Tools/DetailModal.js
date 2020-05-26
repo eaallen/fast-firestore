@@ -6,9 +6,9 @@ class DetailModalBase extends React.Component{
         super(props)
     }
     render(){
-        const data = this.props.context.dataset_obj[this.props.home_dataset]
-        const info = this.props.context.dataset_info_obj[this.props.home_dataset]
-        const arr_sub_coll_info = this.props.context.arr_settings.filter(item=>item.parent_collection_name === this.props.home_dataset)
+        const data = this.props.context.super_ds[this.props.home_dataset].data
+        const info = this.props.context.super_ds[this.props.home_dataset].meta
+        const arr_sub_coll_info = this.props.context.super_ds[this.props.home_dataset].sub_collection_settings
         let row_count
         return(
             <Modal 
@@ -45,7 +45,7 @@ class DetailModalBase extends React.Component{
                             </>
                         }
                     </div>
-                    <div>
+                    {/* <div>
                         {arr_sub_coll_info.map((item,idx)=>{
                             return(<div key={idx}>
                                 <br/>
@@ -65,7 +65,7 @@ class DetailModalBase extends React.Component{
         
                             </div>)
                         })}
-                    </div>
+                    </div> */}
                     <Table striped bordered responsive size="sm">
                         <thead >
                             <tr className="position-sticky sticky-top">

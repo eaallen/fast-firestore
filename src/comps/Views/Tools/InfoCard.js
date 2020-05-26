@@ -2,7 +2,7 @@ import React from 'react'
 import {Toggle} from './Toggle'
 import SubCollectionSelector from './SubCollectionSelector'
 import { withFirebase } from '../../Firebase'
-import { Row, Col, Collapse } from 'react-bootstrap'
+import {Collapse, Spinner } from 'react-bootstrap'
 import DetailModal from './DetailModal'
 class InfoCardBase extends React.Component{
     constructor(props){
@@ -21,8 +21,14 @@ class InfoCardBase extends React.Component{
         return "hidden-color"
     }
     render(){
-        console.log(this.props.data,"<----")
+        console.log(this.props.obj,"<----")
         const arr_sub_info = this.props.context.arr_settings.filter(item=>item.parent_collection_name === this.props.head)
+        if(!this.props.obj.data){
+            return(
+                <Spinner/>
+
+            )
+        }
         return(
             <div className="card infocard">
                 <div className="infocard-header">
@@ -30,7 +36,7 @@ class InfoCardBase extends React.Component{
                    <div><i className="far fa-window-close delete-dataset" onClick={e=>this.props.context.delete_dataset(this.props.head)}></i></div>
                 </div>
                 <div className="infocard-body">
-                    {Object.entries(this.props.body).map(item=>{
+                    {Object.entries(this.props.obj.data[0]).map(item=>{
                         return(
                             <Toggle key={item[0] + 'key'}>{tog=><>
                                 <div className="infocard-data data-odd" onClick={tog.toggle}>

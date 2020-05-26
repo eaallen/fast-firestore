@@ -36,7 +36,7 @@ class ShowManyDatasetsBase extends React.Component{
                 <CardColumns>
                     {Object.entries(datasets).map((data_arr)=> {
                         return(
-                            <InfoCard key={data_arr[0]} head={data_arr[0]} data={data_arr[1]} body={data_arr[1]}/>
+                            <InfoCard key={data_arr[0]} head={data_arr[0]} obj={data_arr[1]} body={data_arr[1]}/>
                         )
                     })}
                 </CardColumns>
