@@ -29,21 +29,24 @@ class CsvUploadBase extends React.Component{
         const selectedFile = document.getElementById('myfile').files[0];
         const name = selectedFile.name.substring(0, selectedFile.name.indexOf('.'))
         this.props.context.init_super_ds(name)
+        
         console.log('selectedFile',selectedFile)
         await Papa.parse(selectedFile,{
             header: true,
             skipEmptyLines: true,
-            complete: (results) => {
+            complete: async(results) => {
             var data = results.data
             console.log('data',data)
             // this.props.context.doSetState({csv_data: data})
-            this.props.context.push_dataset_to_obj(name,data)
-            this.props.context.add_data_to_super_ds(name,data)
+            // this.props.context.push_dataset_to_obj(name,data)
+            console.log("1")
+            await this.props.context.add_data_to_super_ds(name,data)
+            console.log("2")
+            this.props.context.add_meta_data_to_super_ds(name, selectedFile)
+            console.log("3")
         }})
-        let dataset_info = {}
-        dataset_info[name] = selectedFile
-        this.props.context.doSetState("dataset_info_obj", dataset_info)
-        this.props.context.add_meta_data_to_super_ds(name, selectedFile)
+        
+        
     }
     render(){
         return(

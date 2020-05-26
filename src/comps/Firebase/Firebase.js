@@ -60,6 +60,7 @@ export const AppContext = React.createContext()
           add_meta_data_to_super_ds: this.add_meta_data_to_super_ds, 
           init_super_ds: this.init_super_ds,
           add_sub_coll_setting_tp_super_ds: this.add_sub_coll_setting_tp_super_ds,
+          delete_dataset: this.delete_dataset
         }
         this.state = {
           test:'this is comming from the firbase context provider',
@@ -119,7 +120,17 @@ export const AppContext = React.createContext()
         }))
 
       }
-      delete_dataset = () =>{
+      delete_dataset = (name) =>{
+        this.setState(state=> produce(state, draft=>{
+          delete draft.super_ds[name]
+          for(const KEY in draft.super_ds){ // geting keys for rest of elements
+            for(const key in draft.super_ds[KEY].sub_collection_settings){ //geting keys for the parent dict that might hold what we want to delete
+              if(draft.super_ds[KEY].sub_collection_settings[key][name]){ // if a dict in the sub_collection_settings has it 
+                delete draft.super_ds[KEY].sub_collection_settings[key][name] // delete that obj
+              }
+            }
+          }
+        }))
 
       }
       push_dataset_to_obj = (name,dataset)=>{

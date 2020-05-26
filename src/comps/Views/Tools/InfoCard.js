@@ -21,12 +21,13 @@ class InfoCardBase extends React.Component{
         return "hidden-color"
     }
     render(){
+        console.log(this.props.data,"<----")
         const arr_sub_info = this.props.context.arr_settings.filter(item=>item.parent_collection_name === this.props.head)
         return(
             <div className="card infocard">
                 <div className="infocard-header">
                    <h5>{this.props.head}</h5>
-                   <div><i className="far fa-window-close delete-dataset" onClick={this.delete_dataset}></i></div>
+                   <div><i className="far fa-window-close delete-dataset" onClick={e=>this.props.context.delete_dataset(this.props.head)}></i></div>
                 </div>
                 <div className="infocard-body">
                     {Object.entries(this.props.body).map(item=>{

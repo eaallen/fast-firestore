@@ -28,22 +28,15 @@ class ShowManyDatasetsBase extends React.Component{
             )
         }
         let data = this.props.context.dataset_obj
-        // for(let dataset of this.props.context.dataset_arr){
-        //     let sub_data = []
-        //     for(let icount = 0; icount < dataset.length; icount++){
-        //         sub_data.push(dataset[icount])
-        //     }
-        //     data.push(sub_data)
-        // }
-        //data = [[{},{},{},{},{}],[{},{},{},{},{}],[{},{},{},{},{}]]
-        console.log('state------------',this.state)
+        let datasets = this.props.context.super_ds
+        console.log('state------------',datasets)
         return(
             <div>
                 <button onClick={e=>this.handle_click()}>Commit to firebase</button>
                 <CardColumns>
-                    {Object.entries(data).map((data_arr)=> {
+                    {Object.entries(datasets).map((data_arr)=> {
                         return(
-                            <InfoCard key={data_arr[0]} head={data_arr[0]} body={data_arr[1][0]}/>
+                            <InfoCard key={data_arr[0]} head={data_arr[0]} data={data_arr[1]} body={data_arr[1]}/>
                         )
                     })}
                 </CardColumns>
