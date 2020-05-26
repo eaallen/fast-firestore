@@ -62,7 +62,7 @@ class SubCollectionSelectorBase extends React.Component{
             parent_connection_column: this.props.title
         }
         console.log(load_sub_coll_settings)
-        this.props.context.doSetStateArray(load_sub_coll_settings)
+        // this.props.context.doSetStateArray(load_sub_coll_settings)
         // new and improved way
         let _load_sub_coll_settings = {}
         _load_sub_coll_settings[this.props.title]=child_collections
@@ -80,7 +80,6 @@ class SubCollectionSelectorBase extends React.Component{
                <div>
                 <div className=" bg-infocard">
                     {Object.entries(this.props.context.super_ds).map(item=>{
-                        console.log("this.props.context.super_ds item-->",item)
                         return(
                             <div key={item[0]+'key'} className=" bg-infocard">
                                 <Toggle>{tog=><>
@@ -98,7 +97,6 @@ class SubCollectionSelectorBase extends React.Component{
                                                 }}
                                             >
                                                 {Object.keys(item[1].data[0]).map((sub_item,idx) =>{
-                                                    console.log("sub_item++++>",sub_item)
                                                     return(
                                                         
                                                         <div

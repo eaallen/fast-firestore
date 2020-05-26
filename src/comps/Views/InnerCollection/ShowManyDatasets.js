@@ -9,18 +9,13 @@ class ShowManyDatasetsBase extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            sub_coll: [],
-            corr:{x:444,y:0}
+            
         }
     }
     handle_click = async () =>{
         this.props.context.pushDataToFirestore(this.props.context.new_collection, this.props.context[this.props.data])
     }
-    make_sub_coll(e){
-        e.persist()
-        console.log("hello",e.clientX)
-        this.setState({corr:{x:e.clientX,y:e.clientY}})
-    }
+    
     render(){
         if (!this.props.context.dataset_obj){
             return(

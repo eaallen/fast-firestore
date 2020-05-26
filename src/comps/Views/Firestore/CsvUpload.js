@@ -28,7 +28,6 @@ class CsvUploadBase extends React.Component{
     async see_data(){
         const selectedFile = document.getElementById('myfile').files[0];
         const name = selectedFile.name.substring(0, selectedFile.name.indexOf('.'))
-        this.props.context.init_super_ds(name)
         
         console.log('selectedFile',selectedFile)
         await Papa.parse(selectedFile,{
@@ -37,13 +36,7 @@ class CsvUploadBase extends React.Component{
             complete: async(results) => {
             var data = results.data
             console.log('data',data)
-            // this.props.context.doSetState({csv_data: data})
-            // this.props.context.push_dataset_to_obj(name,data)
-            console.log("1")
-            await this.props.context.add_data_to_super_ds(name,data)
-            console.log("2")
-            this.props.context.add_meta_data_to_super_ds(name, selectedFile)
-            console.log("3")
+            this.props.context.create_dataset(name,data,selectedFile)
         }})
         
         

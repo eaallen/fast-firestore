@@ -14,7 +14,7 @@ class InfoCardBase extends React.Component{
             return "hidden-color"
         }
         for(const item of asi){
-            if(item.parent_connection_column === col_name){
+            if(item === col_name){
                 return "show-color"
             }
         }
@@ -22,7 +22,7 @@ class InfoCardBase extends React.Component{
     }
     render(){
         console.log(this.props.obj,"<----")
-        const arr_sub_info = this.props.context.arr_settings.filter(item=>item.parent_collection_name === this.props.head)
+        const arr_sub_info = Object.keys(this.props.obj.sub_collection_settings) || []
         if(!this.props.obj.data){
             return(
                 <Spinner/>

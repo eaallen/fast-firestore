@@ -8,7 +8,7 @@ class DetailModalBase extends React.Component{
     render(){
         const data = this.props.context.super_ds[this.props.home_dataset].data
         const info = this.props.context.super_ds[this.props.home_dataset].meta
-        const arr_sub_coll_info = this.props.context.super_ds[this.props.home_dataset].sub_collection_settings
+        const obj_sub_coll_info = this.props.context.super_ds[this.props.home_dataset].sub_collection_settings
         let row_count
         return(
             <Modal 
@@ -33,9 +33,7 @@ class DetailModalBase extends React.Component{
                         {
                             info?
                             <>
-                                <Row>
-                                    <Col className="text-right font-weight-bold">Size in Bytes:</Col><Col className="text-left">{info.size}</Col>
-                                </Row>
+                                
                                 <Row>
                                     <Col className="text-right font-weight-bold">Original File Name:</Col><Col className="text-left">{info.name}</Col>
                                 </Row>
@@ -45,14 +43,14 @@ class DetailModalBase extends React.Component{
                             </>
                         }
                     </div>
-                    {/* <div>
-                        {arr_sub_coll_info.map((item,idx)=>{
+                    <div>
+                        {Object.entries(obj_sub_coll_info).map((item,idx)=>{
                             return(<div key={idx}>
                                 <br/>
                                 <Row>
-                                    <Col className="text-right font-weight-bold"> Sub-collection Host:</Col><Col className="text-left">{item.parent_connection_column}</Col>
+                                    <Col className="text-right font-weight-bold"> Sub-collection Host:</Col><Col className="text-left">{item[0]}</Col>
                                 </Row>
-                                {Object.entries(item.child_collections).map((sub_item, jdx) =>{
+                                {Object.entries(item[1]).map((sub_item, jdx) =>{
                                     return(<div key={jdx}>
                                         <Row>
                                             <Col className="text-right font-weight-bold"> Sub-collection Name:</Col><Col className="text-left">{sub_item[0]}</Col>
@@ -65,7 +63,7 @@ class DetailModalBase extends React.Component{
         
                             </div>)
                         })}
-                    </div> */}
+                    </div>
                     <Table striped bordered responsive size="sm">
                         <thead >
                             <tr className="position-sticky sticky-top">
