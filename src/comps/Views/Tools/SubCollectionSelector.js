@@ -24,12 +24,6 @@ class SubCollectionSelectorBase extends React.Component{
                 draft[table_name][column_name] = true
             }))
         }
-        //enable below t0 make it so you can pick mutilple columns pre table
-        // }else{      
-        //     this.setState(state=> produce(state, draft=>{
-        //         draft[table_name][column_name] = true
-        //     }))
-        // }
     }
     show_select = (column_name, table_name) =>{
         // changes background color so user knows what they have choosen
@@ -70,6 +64,10 @@ class SubCollectionSelectorBase extends React.Component{
         
         this.props.context.add_sub_coll_setting_tp_super_ds(this.props.table_name,this.props.title,child_collections)
 
+    }
+    cancel = () => {
+        console.log("cancle")
+        
     }
     render(){
         console.log("this dot state------<>",this.state)
@@ -120,7 +118,7 @@ class SubCollectionSelectorBase extends React.Component{
                         )
                     })}
                     <div className="text-right"> 
-                        <Button variant="light"> Cancel</Button>
+                        <Button variant="light" onClick={e=>this.cancel()}> Cancel</Button>
                         <Button onClick={e=>this.save()} variant="primary"> Save</Button>
                     </div>
                 </div>

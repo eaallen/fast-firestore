@@ -75,7 +75,10 @@ export const AppContext = React.createContext()
         }
         // console.log('here')
         var defaultProject = firebase.initializeApp(config);
-        // var sec = firebase.initializeApp(secondary_config, "secondary");
+        let sec = firebase.initializeApp(secondary_config, "testing_only");
+        console.log(sec.name)
+        this.secondaryDatabase = sec.firestore();
+         // var sec = firebase.initializeApp(secondary_config, "secondary");
         console.log(firebase.app().name);  // "[DEFAULT]"
         this.auth = firebase.auth();
         this.db = firebase.firestore()
@@ -287,7 +290,36 @@ export const AppContext = React.createContext()
           console.error(e)
         }
       }
-      pushDataToFirestore = async(collection_name, arr_data) => {
+      pushDataToFirestore = async(dataset_name) => {
+        console.log("in pushDataToFirestore()")
+        const dataset_info = this.state.super_ds[dataset_name]
+        if(Object.keys(dataset_info.sub_collection_settings).length===0){
+          const collection = this.secondaryDatabase.collection(dataset_name)
+          let i = 1
+          for(const obj of dataset_info.data){
+            await collection.add(obj)
+            console.log(i++)
+          }
+        }else{
+          let i = 1
+          console.log("more work ahead")
+          for(const obj of dataset_info.data){
+            const document = this.secondaryDatabase.collection(dataset_name).doc()
+            for(const KEY in dataset_info.sub_collection_settings){
+              for(const key in dataset_info.sub_collection_settings[KEY]){
+                const sub_coll = this.secondaryDatabase.collection(`${dataset_name}/${document.id}/${key}`)
+                for(const child_row of this.state.super_ds[key].data){
+                  if(child_row[dataset_info.sub_collection_settings[KEY][key]]===obj[KEY]){
+                    await sub_coll.add(child_row)
+                    console.log("we got it!")
+                  }
+                }
+              }  
+            }
+            await document.set(obj)
+            console.log(i++)
+          }
+        }
         // let sec = firebase.initializeApp(this.state.second_config, "secondary");
         // console.log(sec.name);    // "otherProject name"
         // let secondaryDatabase = sec.firestore();
@@ -299,6 +331,7 @@ export const AppContext = React.createContext()
         //   console.log(i++)
         // }
       }
+      
       pushDataWithSubCollectionToFirestore = async () =>{
         console.log("in pushDataWithSubCollectionToFirestore()")
         let sec = firebase.initializeApp(secondary_config, "testing_only");

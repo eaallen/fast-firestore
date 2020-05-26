@@ -65,7 +65,9 @@ class InfoCardBase extends React.Component{
                                         <div onClick={deet.toggle}>Details</div>
                                         <DetailModal show={deet.value} control={deet} home_dataset={this.props.head}/>
                                     </>}</Toggle>
-                                    <div>Push to Firestore</div>
+                                    <div onClick={e=>this.props.context.pushDataToFirestore(this.props.head)}>
+                                        Push to Firestore
+                                    </div>
                                 </div>
                             </div>
                         </Collapse>
