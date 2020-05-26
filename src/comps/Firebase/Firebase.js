@@ -55,7 +55,11 @@ export const AppContext = React.createContext()
           doSetState: this.doSetState,
           push_dataset_to_obj: this.push_dataset_to_obj,
           pushDataWithSubCollectionToFirestore: this.pushDataWithSubCollectionToFirestore,
-          doSetStateArray:this.doSetStateArray, 
+          doSetStateArray:this.doSetStateArray,
+          add_data_to_super_ds: this.add_data_to_super_ds,
+          add_meta_data_to_super_ds: this.add_meta_data_to_super_ds, 
+          init_super_ds: this.init_super_ds,
+          add_sub_coll_setting_tp_super_ds: this.add_sub_coll_setting_tp_super_ds,
         }
         this.state = {
           test:'this is comming from the firbase context provider',
@@ -65,7 +69,7 @@ export const AppContext = React.createContext()
           dataset_info_obj: {},
           sub_coll_setitngs: {}, 
           arr_settings: [],
-          // user: null
+          super_ds: {},
         }
         // console.log('here')
         var defaultProject = firebase.initializeApp(config);
@@ -92,6 +96,31 @@ export const AppContext = React.createContext()
       //call this method when connecting to another firebase app
       initializeOtherApp = async(otherConfig) =>{
         
+      }
+      init_super_ds = (name) =>{
+        this.setState(state=> produce(state, draft=>{
+          draft.super_ds[name] = {sub_collection_settings:{}}
+        }))
+
+      }
+      add_data_to_super_ds = (name, dataset)=>{
+        this.setState(state=> produce(state, draft=>{
+          draft.super_ds[name].data = dataset
+        }))
+      }
+      add_meta_data_to_super_ds = (name, metadata) =>{
+        this.setState(state=> produce(state, draft=>{
+          draft.super_ds[name].meta=metadata
+        }))
+      }
+      add_sub_coll_setting_tp_super_ds = (name,coll_name,settings) =>{
+        this.setState(state=> produce(state, draft=>{
+          draft.super_ds[name].sub_collection_settings[coll_name]=settings
+        }))
+
+      }
+      delete_dataset = () =>{
+
       }
       push_dataset_to_obj = (name,dataset)=>{
         this.setState(state=> produce(state, draft=>{

@@ -63,6 +63,13 @@ class SubCollectionSelectorBase extends React.Component{
         }
         console.log(load_sub_coll_settings)
         this.props.context.doSetStateArray(load_sub_coll_settings)
+        // new and improved way
+        let _load_sub_coll_settings = {}
+        _load_sub_coll_settings[this.props.title]=child_collections
+           
+        
+        this.props.context.add_sub_coll_setting_tp_super_ds(this.props.table_name,this.props.title,child_collections)
+
     }
     render(){
         console.log("this dot state------<>",this.state)
