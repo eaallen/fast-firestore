@@ -7,28 +7,28 @@ class SubCollectionSelectorBase extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            
+            setting:{}
         }
     }
     make_select = (column_name, table_name) => {
         // console.log(column_name, table_name)
-        if(this.state[table_name] !== undefined && this.state[table_name][column_name] !==undefined){
+        if(this.state.setting[table_name] !== undefined && this.state.setting[table_name][column_name] !==undefined){ // we alrdey have somthing
             this.setState(state=> produce(state, draft=>{
-                draft[table_name][column_name] = !draft[table_name][column_name]
+                draft.setting={}
               }))
         }else{
             this.setState(state=> produce(state, draft=>{
-                draft[table_name]={}
+                draft.setting[table_name]={}
               }))
             this.setState(state=> produce(state, draft=>{
-                draft[table_name][column_name] = true
+                draft.setting[table_name][column_name] = true
             }))
         }
     }
     show_select = (column_name, table_name) =>{
         // changes background color so user knows what they have choosen
-        if(this.state[table_name] !== undefined && this.state[table_name][column_name] !==undefined){
-            if(this.state[table_name][column_name]){
+        if(this.state.setting[table_name] !== undefined && this.state.setting[table_name][column_name] !==undefined){
+            if(this.state.setting[table_name][column_name]){
                 return "#43a8ec"
             }
             return "#a6dbff"
@@ -40,10 +40,10 @@ class SubCollectionSelectorBase extends React.Component{
         console.log("save", this.props.table_name, this.props.title)
         let child_collections = {}
         
-        for(const KEY in this.state){
+        for(const KEY in this.state.setting){
             let arr_for_sub_coll = []
-            for(const key in this.state[KEY]){
-                if(this.state[KEY][key]){
+            for(const key in this.state.setting[KEY]){
+                if(this.state.setting[KEY][key]){
                     arr_for_sub_coll.push(key)
                     child_collections[KEY] = key
                 }
@@ -69,10 +69,18 @@ class SubCollectionSelectorBase extends React.Component{
         console.log("cancle")
         for(const key in this.state){
             this.setState(state=> produce(state, draft=>{
-                draft[key] = ! draft[key]
-              }))
+                draft.setting = {}
+            }))
         }
         this.props.context.remove_a_sub_coll_setting(this.props.table_name, this.props.title)
+    }
+    is_state_empty = () =>{
+        if(Object.keys(this.state.setting).length===0){
+            return true
+        }
+        return false
+    }
+    save_action = () =>{
     }
     render(){
         console.log("this dot state------<>",this.state)
@@ -124,7 +132,7 @@ class SubCollectionSelectorBase extends React.Component{
                     })}
                     <div className="text-right"> 
                         <Button variant="light" onClick={e=>this.cancel()}> Cancel</Button>
-                        <Button onClick={e=>this.save()} variant="primary" disabled={!this.state[this.props.title]?true:false}> Save</Button>
+                        <Button onClick={e=>this.save()} variant="primary" disabled={this.is_state_empty()}> Save</Button>
                     </div>
                 </div>
                 </div>

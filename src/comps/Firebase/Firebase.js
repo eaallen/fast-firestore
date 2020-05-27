@@ -167,9 +167,10 @@ export const AppContext = React.createContext()
           draft.dataset_obj[name] = dataset
         }))
       }
-      //              string         object
-      doSetState = (fb_state_val=null, value) =>{
+      //            objct       string
+      doSetState = (value,fb_state_val=null ) =>{
         // key is string valve can be anything
+        console.log("value in doSetState--->",value)
         if(fb_state_val==="sub_coll_setitngs"){
           for(const item of Object.entries(value)){
             this.setState(state=> produce(state, draft=>{

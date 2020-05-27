@@ -7,6 +7,7 @@ class ConfigCollectionBase extends React.Component{
         this.state={
             collection: '',
             firebase_config:'',
+            error:'',
         }
     }
     handle_change =(e) => {
@@ -17,26 +18,31 @@ class ConfigCollectionBase extends React.Component{
 
     async handle_click(e){
         e.preventDefault()
-        await this.props.context.doSetState({second_config:await this.parse_and_send(), new_collection:this.state.collection})
+        await this.props.context.doSetState({second_config:await this.parse_and_send()})
 
     }
     //add the attribute component to the array in state
     parse_and_send(){
-        //use regex to turn the config string into JSON format
-        let str = this.state.firebase_config
-        //find what we want to change
-        let re = /\w+(?=:\s)/gm
-        let find = str.match(re)
-        console.log('find--->',find)
-        //make the change here
-        for(const item of find){
-            str = str.replace(item, '"'+item+'"')
-        }
-        console.log(str)
+        try{
+            //use regex to turn the config string into JSON format
+            let str = "{"+this.state.firebase_config+"}"
+            //find what we want to change
+            let re = /\w+(?=:\s)/gm
+            let find = str.match(re)
+            console.log('find--->',find)
+            //make the change here
+            for(const item of find){
+                str = str.replace(item, '"'+item+'"')
+            }
+            console.log(str)
 
-        let config = JSON.parse(str)
-        //set the state in the context provider
-        return config
+            let config = JSON.parse(str)
+            //set the state in the context provider
+            return config
+        }catch(e){
+            console.error("ERRRRRORRRR--->",e)
+            this.setState({error:"Must be your Firebase config info"})
+        }
     }
     render(){
         console.log('state',this.state)
@@ -52,16 +58,9 @@ class ConfigCollectionBase extends React.Component{
                             placeholder="Firebase Config Here"                   
                         />
                     </Form.Group>
-                    <Form.Group>
-                        <Form.Control 
-                            value={this.state.collection}
-                            onChange={e=>this.handle_change(e)} 
-                            name='collection'
-                            placeholder="New Collection Name"
-                        />
-                    </Form.Group>
                 </Form>
                 <Button onClick={e=> this.handle_click(e)}>Continue</Button>
+                <p className="text-danger">{this.state.error}</p>
             </div>
         )
     }
