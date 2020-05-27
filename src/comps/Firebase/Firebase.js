@@ -62,6 +62,7 @@ export const AppContext = React.createContext()
           add_sub_coll_setting_tp_super_ds: this.add_sub_coll_setting_tp_super_ds,
           delete_dataset: this.delete_dataset,
           create_dataset: this.create_dataset,
+          remove_a_sub_coll_setting: this.remove_a_sub_coll_setting,
         }
         this.state = {
           test:'this is comming from the firbase context provider',
@@ -153,8 +154,13 @@ export const AppContext = React.createContext()
               }
             }
           }
-        
-
+      }
+      remove_a_sub_coll_setting = (dataset, join_col) =>{
+        if(this.state.super_ds[dataset].sub_collection_settings[join_col]!==undefined){
+          this.setState(state=> produce(state, draft=>{
+            delete draft.super_ds[dataset].sub_collection_settings[join_col] // delete that obj
+          }))
+        }
       }
       push_dataset_to_obj = (name,dataset)=>{
         this.setState(state=> produce(state, draft=>{

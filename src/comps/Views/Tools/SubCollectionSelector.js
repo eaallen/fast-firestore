@@ -67,7 +67,12 @@ class SubCollectionSelectorBase extends React.Component{
     }
     cancel = () => {
         console.log("cancle")
-        
+        for(const key in this.state){
+            this.setState(state=> produce(state, draft=>{
+                draft[key] = ! draft[key]
+              }))
+        }
+        this.props.context.remove_a_sub_coll_setting(this.props.table_name, this.props.title)
     }
     render(){
         console.log("this dot state------<>",this.state)
@@ -119,7 +124,7 @@ class SubCollectionSelectorBase extends React.Component{
                     })}
                     <div className="text-right"> 
                         <Button variant="light" onClick={e=>this.cancel()}> Cancel</Button>
-                        <Button onClick={e=>this.save()} variant="primary"> Save</Button>
+                        <Button onClick={e=>this.save()} variant="primary" disabled={!this.state[this.props.title]?true:false}> Save</Button>
                     </div>
                 </div>
                 </div>
