@@ -32,7 +32,7 @@ class InfoCardBase extends React.Component{
         return(
             <div className="card infocard">
                 <div className="infocard-header">
-                   <h5>{this.props.head}</h5>
+                   <div className="head-padding"><h5>{this.props.head}</h5></div>
                    <div><i className="far fa-window-close delete-dataset" onClick={e=>this.props.context.delete_dataset(this.props.head)}></i></div>
                 </div>
                 <div className="infocard-body">

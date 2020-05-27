@@ -38,9 +38,7 @@ class HomeBase extends React.Component{
                         </div>
                     </Col>
                     <Col sm={9}>
-                        <Button onClick={e=>this.handle_test()} disabled={this.props.context.arr_settings[0]? false : true}>
-                            test me pushDataWithSubCollectionToFirestore
-                        </Button>
+                        
                         pictures go here
                         <br/>
                         
@@ -64,7 +62,6 @@ class HomeBase extends React.Component{
                                         </div>
                                     )
                                 })}
-                                <div className="btn btn-primary btn-round" onClick={e=>this.new_FastFirestore()}>+</div>
                             </div>
                         </div>
                     </Col>

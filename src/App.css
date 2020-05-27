@@ -95,6 +95,15 @@
   top: 5px;
   right: 5px;
   font-size: 20px;
+  display:inline-block;
+  margin-left: 1rem;
+  transition: .35s;
+}.delete-dataset:hover{
+  color:#ecc443
+}
+.head-padding{
+  padding-left: 8px;
+  padding-right: 1.75rem;
 }
 
 

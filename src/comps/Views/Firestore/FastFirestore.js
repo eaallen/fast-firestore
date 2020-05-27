@@ -1,6 +1,6 @@
 import React from 'react'
 import { withFirebase } from '../../Firebase'
-import {Form,Row,Col} from 'react-bootstrap'
+import {Form,Row,Col,Button} from 'react-bootstrap'
 import axios from 'axios'
 class FastFirestoreBase extends React.Component{
     constructor(props){
@@ -10,7 +10,8 @@ class FastFirestoreBase extends React.Component{
             dw_data_set:'kandykane',
             data_set_name:'',
             file_name: 'customer',
-            user_name: '',
+            user_name: 'eaallen',
+            error: '',
         }
         this.actions={
             add_attribute: this.add_attribute
@@ -28,24 +29,30 @@ class FastFirestoreBase extends React.Component{
     }
     //add the attribute component to the array in state
     async get_dw_data(e){
-        e.preventDefault()
-        console.log('click')
-        let resp = await axios({
-            // url: `https://api.data.world/v0/sql/${this.state.user_name}/${this.state.dw_data_set}`,
-            // data:{query: `SELECT * FROM ${this.state.file_name}`},
-            url: `https://api.data.world/v0/sql/eaallen/kandykane`,
-            data:{query: `SELECT * FROM customer`},
-            headers:{
-                Authorization: "Bearer "+"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcm9kLXVzZXItY2xpZW50OmVhYWxsZW4iLCJpc3MiOiJhZ2VudDplYWFsbGVuOjo0YzBlYWQ5YS1kODE5LTQzMWMtYjVmOS0zNGEwZDE5MzRkOGQiLCJpYXQiOjE1Nzc3MTc5OTcsInJvbGUiOlsidXNlcl9hcGlfcmVhZCIsInVzZXJfYXBpX3dyaXRlIl0sImdlbmVyYWwtcHVycG9zZSI6dHJ1ZSwic2FtbCI6e319.XbV9G84LNvqN6RREjPKFlDLQrTtzUu5KVu46xDS7TOtGnMZ94h1PrNaAkQ6zT-79QOM7Ku2GrZdivguQ_o9jsw" //this.state.api_key
-            },
-        })
-        console.log('response from data.world',resp)
-        // this.props.context.push_dataset_to_obj(this.state.dw_data_set+"_"+this.state.file_name ,resp.data)
-        const name = this.state.dw_data_set+"_"+this.state.file_name
-        const selectedFile = {
-            name: this.state.file_name
+        let resp
+        this.setState({error:''})
+        try{
+            e.preventDefault()
+            console.log('click')
+            resp = await axios({
+                url: `https://api.data.world/v0/sql/${this.state.user_name}/${this.state.dw_data_set}`,
+                data:{query: `SELECT * FROM ${this.state.file_name}`},
+                // url: `https://api.data.world/v0/sql/eaallen/kandykane`,
+                // data:{query: `SELECT * FROM customer`},
+                headers:{
+                    Authorization: "Bearer "+"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcm9kLXVzZXItY2xpZW50OmVhYWxsZW4iLCJpc3MiOiJhZ2VudDplYWFsbGVuOjo0YzBlYWQ5YS1kODE5LTQzMWMtYjVmOS0zNGEwZDE5MzRkOGQiLCJpYXQiOjE1Nzc3MTc5OTcsInJvbGUiOlsidXNlcl9hcGlfcmVhZCIsInVzZXJfYXBpX3dyaXRlIl0sImdlbmVyYWwtcHVycG9zZSI6dHJ1ZSwic2FtbCI6e319.XbV9G84LNvqN6RREjPKFlDLQrTtzUu5KVu46xDS7TOtGnMZ94h1PrNaAkQ6zT-79QOM7Ku2GrZdivguQ_o9jsw" //this.state.api_key
+                },
+            })
+            console.log('response from data.world',resp)
+            // this.props.context.push_dataset_to_obj(this.state.dw_data_set+"_"+this.state.file_name ,resp.data)
+            const name = this.state.dw_data_set+"_"+this.state.file_name
+            const selectedFile = {
+                name: this.state.file_name
+            }
+            this.props.context.create_dataset(name,resp.data,selectedFile)
+        }catch(e){
+           this.setState({error:'Connection Error'})
         }
-        this.props.context.create_dataset(name,resp.data,selectedFile)
     }
    
     render(){
@@ -63,6 +70,7 @@ class FastFirestoreBase extends React.Component{
                                 value={this.state.user_name} 
                                 onChange={e=>this.handle_change(e)}
                                 name='user_name'
+                                required 
                             />
                         </Col>
                         <Col>
@@ -73,6 +81,7 @@ class FastFirestoreBase extends React.Component{
                                 value={this.state.dw_data_set} 
                                 onChange={e=>this.handle_change(e)} 
                                 name='dw_data_set'
+                                required 
                             />   
                         </Col>    
                         <Col>
@@ -83,6 +92,7 @@ class FastFirestoreBase extends React.Component{
                                 value={this.state.file_name} 
                                 onChange={e=>this.handle_change(e)} 
                                 name='file_name'
+                                required 
                             />
                         </Col>
                     
@@ -96,14 +106,15 @@ class FastFirestoreBase extends React.Component{
                             value={this.state.api_key} 
                             onChange={e=>this.handle_change(e)} 
                             name='api_key'
+                            required 
                         />
                     </Form.Group>
                         
                         {/* https://api.data.world/v0/sql/eaallen/cleancovid */}
                         {/* eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcm9kLXVzZXItY2xpZW50OmVhYWxsZW4iLCJpc3MiOiJhZ2VudDplYWFsbGVuOjo0YzBlYWQ5YS1kODE5LTQzMWMtYjVmOS0zNGEwZDE5MzRkOGQiLCJpYXQiOjE1Nzc3MTc5OTcsInJvbGUiOlsidXNlcl9hcGlfcmVhZCIsInVzZXJfYXBpX3dyaXRlIl0sImdlbmVyYWwtcHVycG9zZSI6dHJ1ZSwic2FtbCI6e319.XbV9G84LNvqN6RREjPKFlDLQrTtzUu5KVu46xDS7TOtGnMZ94h1PrNaAkQ6zT-79QOM7Ku2GrZdivguQ_o9jsw */}
                         
-                    <button onClick={e=>this.get_dw_data(e)}>View data from data.world</button>
-                    
+                    <Button onClick={e=>this.get_dw_data(e)}>View data from data.world</Button>
+                    <p className="text-danger">{this.state.error}</p>
                 </Form>
             </div>
         )

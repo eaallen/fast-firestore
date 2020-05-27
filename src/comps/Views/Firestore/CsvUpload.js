@@ -26,27 +26,27 @@ class CsvUploadBase extends React.Component{
     }
 
     async see_data(){
-        const selectedFile = document.getElementById('myfile').files[0];
-        const name = selectedFile.name.substring(0, selectedFile.name.indexOf('.'))
-        
-        console.log('selectedFile',selectedFile)
-        await Papa.parse(selectedFile,{
-            header: true,
-            skipEmptyLines: true,
-            complete: async(results) => {
-            var data = results.data
-            console.log('data',data)
-            this.props.context.create_dataset(name,data,selectedFile)
-        }})
-        
-        
+        for(let icount = 0; icount < document.getElementById('myfile').files.length; icount++){
+            const selectedFile = document.getElementById('myfile').files[icount];
+            const name = selectedFile.name.substring(0, selectedFile.name.indexOf('.'))
+            console.log('selectedFile',selectedFile)
+            await Papa.parse(selectedFile,{
+                header: true,
+                skipEmptyLines: true,
+                complete: async(results) => {
+                var data = results.data
+                console.log('data',data)
+                this.props.context.create_dataset(name,data,selectedFile)
+            }})
+        }
+        document.getElementById('myfile').value = []
     }
     render(){
         return(
             <div>
                 <h3>Import from Local CSV file</h3>
                 <label htmlFor="myfile">Select a file: </label>
-                <input type="file" id="myfile" name="myfile" onChange={e=>this.see_data(e)}/><br/><br/>                
+                <input type="file" id="myfile" name="myfile" multiple onChange={e=>this.see_data(e)}/><br/><br/>                
             </div>
         )
     }

@@ -24,6 +24,7 @@ class ConfigCollectionBase extends React.Component{
     //add the attribute component to the array in state
     parse_and_send(){
         try{
+            this.setState({error:""})
             //use regex to turn the config string into JSON format
             let str = "{"+this.state.firebase_config+"}"
             //find what we want to change
@@ -37,10 +38,10 @@ class ConfigCollectionBase extends React.Component{
             console.log(str)
 
             let config = JSON.parse(str)
+
             //set the state in the context provider
             return config
         }catch(e){
-            console.error("ERRRRRORRRR--->",e)
             this.setState({error:"Must be your Firebase config info"})
         }
     }
