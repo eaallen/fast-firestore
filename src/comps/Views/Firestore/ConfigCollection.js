@@ -49,18 +49,19 @@ class ConfigCollectionBase extends React.Component{
         console.log('state',this.state)
         return(
             <div>
-                <Form>
+                <Form onSubmit={e=>this.handle_click(e)}>
                     <Form.Group>
                         <Form.Control 
                             as="textarea"
                             value={this.state.firebase_config} 
                             onChange={e=>this.handle_change(e)} 
                             name='firebase_config'
-                            placeholder="Firebase Config Here"                   
+                            placeholder="Firebase Config Here" 
+                            required                  
                         />
                     </Form.Group>
+                    <Button type="submit">Continue</Button>
                 </Form>
-                <Button onClick={e=> this.handle_click(e)}>Continue</Button>
                 <p className="text-danger">{this.state.error}</p>
             </div>
         )

@@ -12,6 +12,7 @@ class FastFirestoreBase extends React.Component{
             file_name: 'customer',
             user_name: 'eaallen',
             error: '',
+            getting_data: false,
         }
         this.actions={
             add_attribute: this.add_attribute
@@ -29,10 +30,10 @@ class FastFirestoreBase extends React.Component{
     }
     //add the attribute component to the array in state
     async get_dw_data(e){
+        e.preventDefault()
         let resp
-        this.setState({error:''})
+        this.setState({error:'',getting_data:true})
         try{
-            e.preventDefault()
             console.log('click')
             resp = await axios({
                 url: `https://api.data.world/v0/sql/${this.state.user_name}/${this.state.dw_data_set}`,
@@ -50,6 +51,7 @@ class FastFirestoreBase extends React.Component{
                 name: this.state.file_name
             }
             this.props.context.create_dataset(name,resp.data,selectedFile)
+            this.setState({getting_data:false})
         }catch(e){
            this.setState({error:'Connection Error'})
            console.error(e)
@@ -61,7 +63,7 @@ class FastFirestoreBase extends React.Component{
         return(
             <div>
                 <h3>Import from Data.world</h3>
-                <Form>
+                <Form onSubmit={e=>this.get_dw_data(e)}>
                     <Row>
                         <Col>
                             <Form.Label>
@@ -114,7 +116,7 @@ class FastFirestoreBase extends React.Component{
                         {/* https://api.data.world/v0/sql/eaallen/cleancovid */}
                         {/* eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcm9kLXVzZXItY2xpZW50OmVhYWxsZW4iLCJpc3MiOiJhZ2VudDplYWFsbGVuOjo0YzBlYWQ5YS1kODE5LTQzMWMtYjVmOS0zNGEwZDE5MzRkOGQiLCJpYXQiOjE1Nzc3MTc5OTcsInJvbGUiOlsidXNlcl9hcGlfcmVhZCIsInVzZXJfYXBpX3dyaXRlIl0sImdlbmVyYWwtcHVycG9zZSI6dHJ1ZSwic2FtbCI6e319.XbV9G84LNvqN6RREjPKFlDLQrTtzUu5KVu46xDS7TOtGnMZ94h1PrNaAkQ6zT-79QOM7Ku2GrZdivguQ_o9jsw */}
                         
-                    <Button onClick={e=>this.get_dw_data(e)}>View data from data.world</Button>
+                    <Button type="submit" disabled={this.state.getting_data}>View data from data.world</Button>
                     <p className="text-danger">{this.state.error}</p>
                 </Form>
             </div>
