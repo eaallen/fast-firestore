@@ -80,7 +80,7 @@ class HomeBase extends React.Component{
                         <CsvUpload/>
                     </Col>
                     <Col sm={9}>
-                        <ShowData data="csv_data"/>
+                        
                     </Col>
                 </Row>
             </div>
