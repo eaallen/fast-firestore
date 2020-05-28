@@ -27,7 +27,6 @@ class ShowManyDatasetsBase extends React.Component{
         console.log('state------------',datasets)
         return(
             <div>
-                <button onClick={e=>this.handle_click()}>Commit to firebase</button>
                 <CardColumns>
                     {Object.entries(datasets).map((data_arr)=> {
                         return(

@@ -52,6 +52,7 @@ class FastFirestoreBase extends React.Component{
             this.props.context.create_dataset(name,resp.data,selectedFile)
         }catch(e){
            this.setState({error:'Connection Error'})
+           console.error(e)
         }
     }
    
