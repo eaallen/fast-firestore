@@ -7,7 +7,6 @@ import CsvUpload from '../Firestore/CsvUpload'
 import ConfigCollection from '../Firestore/ConfigCollection'
 import produce from 'immer'
 import { withFirebase } from '../../Firebase'
-import DataWorldForm from '../Tools/DataWorldForm'
 class HomeBase extends React.Component{
     constructor(props){
         super(props)
@@ -39,7 +38,6 @@ class HomeBase extends React.Component{
                         </div>
                     </Col>
                     <Col sm={9}>
-                        <DataWorldForm/>
                         pictures go here
                         <br/>
                         
