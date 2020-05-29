@@ -114,7 +114,11 @@ export const AppContext = React.createContext()
           draft.super_ds[name] = {
             data:dataset,
             meta: metadata,
-            sub_collection_settings:{}
+            sub_collection_settings:{},
+            loading_info:{
+              uploaded: false,
+              loading: null
+            }
           }
         }))
       }
@@ -302,13 +306,16 @@ export const AppContext = React.createContext()
         const dataset_info = this.state.super_ds[dataset_name]
         if(Object.keys(dataset_info.sub_collection_settings).length===0){
           const collection = this.secondaryDatabase.collection(dataset_name)
-          let i = 1
+          let i = 0
           for(const obj of dataset_info.data){
             await collection.add(obj)
-            console.log(i++)
-          }
+            ++i
+            this.setState(state=> produce(state, draft=>{
+              draft.super_ds[dataset_name].loading_info.loading = i
+            }))
+              }
         }else{
-          let i = 1
+          let i = 0
           console.log("more work ahead")
           for(const obj of dataset_info.data){
             const document = this.secondaryDatabase.collection(dataset_name).doc()
@@ -324,20 +331,17 @@ export const AppContext = React.createContext()
               }  
             }
             await document.set(obj)
-            console.log(i++)
+            ++i
+            this.setState(state=> produce(state, draft=>{
+              draft.super_ds[dataset_name].loading_info.loading = i
+            }))
           }
         }
-        // let sec = firebase.initializeApp(this.state.second_config, "secondary");
-        // console.log(sec.name);    // "otherProject name"
-        // let secondaryDatabase = sec.firestore();
-        // // make a collection for the data
-        // const collection = secondaryDatabase.collection(collection_name)
-        // let i = 1
-        // for(const obj of arr_data){
-        //   await collection.add(obj)
-        //   console.log(i++)
-        // }
-      }
+        this.setState(state=> produce(state, draft=>{
+          draft.super_ds[dataset_name].loading_info.loading = null
+          draft.super_ds[dataset_name].loading_info.uploaded = true
+        }))
+  }
       
       pushDataWithSubCollectionToFirestore = async () =>{
         console.log("in pushDataWithSubCollectionToFirestore()")

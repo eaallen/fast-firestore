@@ -40,6 +40,7 @@ class HomeBase extends React.Component{
                     <Col sm={9}>
                         pictures go here
                         <br/>
+                        progres <br/>
                         
                     </Col>
                 </Row>

@@ -2,7 +2,7 @@ import React from 'react'
 import {Toggle} from './Toggle'
 import SubCollectionSelector from './SubCollectionSelector'
 import { withFirebase } from '../../Firebase'
-import {Collapse, Spinner } from 'react-bootstrap'
+import {Collapse, Spinner, ProgressBar} from 'react-bootstrap'
 import DetailModal from './DetailModal'
 class InfoCardBase extends React.Component{
     constructor(props){
@@ -66,7 +66,25 @@ class InfoCardBase extends React.Component{
                                         <DetailModal show={deet.value} control={deet} home_dataset={this.props.head}/>
                                     </>}</Toggle>
                                     <div onClick={e=>this.props.context.pushDataToFirestore(this.props.head)}>
-                                        Push to Firestore
+                                       <span> Push to Firestore
+                                        {
+                                            this.props.obj.loaded_to_firestore?
+                                                <ProgressBar 
+                                                    now={100}
+                                                    label = "Upload Complete"
+                                                    variant="info"
+                                                />
+                                            :
+                                            this.props.context.loading?
+                                                <ProgressBar 
+                                                    variant="info"
+                                                    now={100*(this.props.context.loading/this.props.obj.data.length)}
+                                                    label = {`${Math.round(100*(this.props.context.loading/this.props.obj.data.length))}%`}
+                                                />
+                                            :
+                                            <></>
+                                        }
+                                        </span>
                                     </div>
                                 </div>
                             </div>
