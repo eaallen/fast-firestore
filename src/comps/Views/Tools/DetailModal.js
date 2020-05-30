@@ -6,6 +6,7 @@ class DetailModalBase extends React.Component{
         super(props)
     }
     render(){
+        const upload_info  = this.props.context.super_ds[this.props.home_dataset].loading_info
         const data = this.props.context.super_ds[this.props.home_dataset].data
         const info = this.props.context.super_ds[this.props.home_dataset].meta
         const obj_sub_coll_info = this.props.context.super_ds[this.props.home_dataset].sub_collection_settings
@@ -42,6 +43,9 @@ class DetailModalBase extends React.Component{
                             <>
                             </>
                         }
+                        <Row>
+                            <Col className="text-right font-weight-bold">Uploaded to Firestore:</Col><Col className="text-left">{upload_info.uploaded.toString()}</Col>
+                        </Row>
                     </div>
                     <div>
                         {Object.entries(obj_sub_coll_info).map((item,idx)=>{

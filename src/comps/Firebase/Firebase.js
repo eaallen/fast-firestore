@@ -65,13 +65,6 @@ export const AppContext = React.createContext()
           remove_a_sub_coll_setting: this.remove_a_sub_coll_setting,
         }
         this.state = {
-          test:'this is comming from the firbase context provider',
-          loading: null,
-          up_loading: null,
-          dataset_obj: {},
-          dataset_info_obj: {},
-          sub_coll_setitngs: {}, 
-          arr_settings: [],
           super_ds: {},
         }
         // console.log('here')
@@ -139,25 +132,25 @@ export const AppContext = React.createContext()
 
       }
       delete_dataset = async (name) =>{
-        this.setState(state=> produce(state, draft=>{
-          delete draft.super_ds[name]
-        }))
-          for(const KEY in this.state.super_ds){ // geting keys for rest of elements
-            for(const key in this.state.super_ds[KEY].sub_collection_settings){ //geting keys for the parent dict that might hold what we want to delete
-              if(this.state.super_ds[KEY].sub_collection_settings[key][name]){ // if a dict in the sub_collection_settings has it
-                if(Object.values(this.state.super_ds[KEY].sub_collection_settings[key]).length>=1){
-                  this.setState(state=> produce(state, draft=>{
-                    delete draft.super_ds[KEY].sub_collection_settings[key]
-                  }))
-                }else{
-                  this.setState(state=> produce(state, draft=>{
-                    delete draft.super_ds[KEY].sub_collection_settings[key][name] // delete that obj
-                  }))
-  
-                }
+        for(const KEY in this.state.super_ds){ // geting keys for rest of elements
+          for(const key in this.state.super_ds[KEY].sub_collection_settings){ //geting keys for the parent dict that might hold what we want to delete
+            if(this.state.super_ds[KEY].sub_collection_settings[key][name]){ // if a dict in the sub_collection_settings has it
+              if(Object.values(this.state.super_ds[KEY].sub_collection_settings[key]).length>=1){
+                this.setState(state=> produce(state, draft=>{
+                  delete draft.super_ds[KEY].sub_collection_settings[key]
+                }))
+              }else{
+                this.setState(state=> produce(state, draft=>{
+                  delete draft.super_ds[KEY].sub_collection_settings[key][name] // delete that obj
+                }))
+
               }
             }
           }
+        }
+        this.setState(state=> produce(state, draft=>{
+          delete draft.super_ds[name]
+        }))
       }
       remove_a_sub_coll_setting = (dataset, join_col) =>{
         if(this.state.super_ds[dataset].sub_collection_settings[join_col]!==undefined){

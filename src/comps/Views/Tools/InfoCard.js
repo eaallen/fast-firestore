@@ -68,19 +68,21 @@ class InfoCardBase extends React.Component{
                                     <div onClick={e=>this.props.context.pushDataToFirestore(this.props.head)}>
                                        <span> Push to Firestore
                                         {
-                                            this.props.obj.loaded_to_firestore?
+                                            this.props.obj.loading_info.loading?
+                                                <ProgressBar 
+                                                    variant="info"
+                                                    now={100*(this.props.obj.loading_info.loading/this.props.obj.data.length)}
+                                                    label = {`${Math.round(100*(this.props.obj.loading_info.loading/this.props.obj.data.length))}%`}
+                                                />
+                                            :
+                                            this.props.obj.loading_info.uploaded?
+                                            <>
                                                 <ProgressBar 
                                                     now={100}
                                                     label = "Upload Complete"
                                                     variant="info"
                                                 />
-                                            :
-                                            this.props.context.loading?
-                                                <ProgressBar 
-                                                    variant="info"
-                                                    now={100*(this.props.context.loading/this.props.obj.data.length)}
-                                                    label = {`${Math.round(100*(this.props.context.loading/this.props.obj.data.length))}%`}
-                                                />
+                                            </>
                                             :
                                             <></>
                                         }

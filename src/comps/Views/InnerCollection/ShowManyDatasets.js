@@ -17,12 +17,12 @@ class ShowManyDatasetsBase extends React.Component{
     }
     
     render(){
-        if (!this.props.context.dataset_obj){
+        if (!this.props.context.super_ds){
             return(
                 <div>test data here</div>
             )
         }
-        let data = this.props.context.dataset_obj
+        
         let datasets = this.props.context.super_ds
         console.log('state------------',datasets)
         return(
