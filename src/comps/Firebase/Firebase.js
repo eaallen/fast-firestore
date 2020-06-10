@@ -297,7 +297,7 @@ export const AppContext = React.createContext()
       pushDataToFirestore = async(dataset_name) => {
         console.log("in pushDataToFirestore()")
         const dataset_info = this.state.super_ds[dataset_name]
-        if(Object.keys(dataset_info.sub_collection_settings).length===0){
+        if(Object.values(dataset_info.sub_collection_settings).length===0){
           const collection = this.secondaryDatabase.collection(dataset_name)
           let i = 0
           for(const obj of dataset_info.data){

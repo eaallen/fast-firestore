@@ -1,7 +1,6 @@
 import React from 'react'
-import {Row, Col, Button} from 'react-bootstrap'
+import {Modal,Button} from 'react-bootstrap'
 import FastFirestore from '../Firestore/FastFirestore'
-import ShowData from '../ShowData'
 import ShowManyDatasets from '../InnerCollection/ShowManyDatasets'
 import CsvUpload from '../Firestore/CsvUpload'
 import ConfigCollection from '../Firestore/ConfigCollection'
@@ -14,74 +13,24 @@ class HomeBase extends React.Component{
             arr_fast_firestore: [<FastFirestore/>],
         }
     }
-    new_FastFirestore = () =>{
-        this.setState(state=> produce(state, draft=>{
-            draft.arr_fast_firestore.push(<FastFirestore/>)
-          }))
-    }
     handle_test = () =>{
         this.props.context.pushDataWithSubCollectionToFirestore()
     }
     render(){
         return(
             <div>
-                <Row noGutters>
-                    <Col sm={3} className="pl-4 pr-4">
-                        <div>
-                            <h1>
-                                Step 1.
-                            </h1>
-                            <h4>
-                                Create a Collection Instance for Your Data
-                            </h4>
-                            <ConfigCollection/>
-                        </div>
-                    </Col>
-                    <Col sm={9}>
-                        pictures go here
-                        <br/>
-                        progres <br/>
-                        
-                    </Col>
-                </Row>
-                <br/> <br/>
-                <Row noGutters>
-                    <Col sm={3} className="pl-4 pr-4">
-                        <div>
-                            <h1>
-                                Step 2.
-                            </h1>
-                            <h4>
-                                Import Data from Source and review it
-                            </h4>
-                            <div>
-                                {this.state.arr_fast_firestore.map((comp, idx)=> {
-                                    return(
-                                        <div key={idx}>
-                                            {comp}
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                        </div>
-                    </Col>
-                    <Col sm={9}>
-                        {/* <ShowData data="dw_data"/> */}
-                        <ShowManyDatasets/>
-                    </Col>
-                </Row>
-                <div>
-                    
+                <div className="setup">
+                    <div>
+                        <h4>
+                            Connect to your firebase app
+                        </h4>
+                        <ConfigCollection/>
+                    </div>
+                    <DataModal/>
                 </div>
-                <br/> <br/>
-                <Row noGutters>
-                    <Col sm={3} className="pl-4 pr-4">
-                        <CsvUpload/>
-                    </Col>
-                    <Col sm={9}>
-                        
-                    </Col>
-                </Row>
+                <div className="work-area">
+                    <ShowManyDatasets/>
+                </div>
             </div>
         )
     
@@ -89,3 +38,33 @@ class HomeBase extends React.Component{
 }
 const Home = withFirebase(HomeBase)
 export default Home
+
+function DataModal(props) {
+    const [show, setShow] = React.useState(false);
+  
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+  
+    return (
+      <>
+        <Button variant="primary" onClick={handleShow}>
+          Launch Data Selector
+        </Button>
+  
+        <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>Data Selector</Modal.Title>
+              </Modal.Header>
+            <Modal.Body>
+                <FastFirestore/>
+                <CsvUpload/>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Close
+                </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  }

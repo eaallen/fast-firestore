@@ -9,18 +9,25 @@ import {
   Route,
 } from "react-router-dom";
 import Home from './comps/Views/Home/Home';
-
+import Top from './comps/Views/Top';
+import About from './comps/Views/About'
+import {Container} from 'react-bootstrap'
 function App(props) {
   return (
     <div className="App">
       <Router>
-        <Switch>
-          <Route path="/">
-            <Home/>
-          </Route>
-        </Switch>
+        <Container>
+          <Top/>
+            <Switch>
+              <Route path="/About">
+                <About/>
+              </Route>
+              <Route path="/">
+                <Home/>
+              </Route>
+            </Switch>
+        </Container>
       </Router>
-      
     </div>
   );
 }
