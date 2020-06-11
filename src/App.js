@@ -11,6 +11,7 @@ import {
 import Home from './comps/Views/Home/Home';
 import Top from './comps/Views/Top';
 import About from './comps/Views/About'
+import Contact from './comps/Views/Contact'
 import {Container} from 'react-bootstrap'
 function App(props) {
   return (
@@ -19,6 +20,9 @@ function App(props) {
         <Container>
           <Top/>
             <Switch>
+              <Route path="/Contact">
+                <Contact/>
+              </Route>
               <Route path="/About">
                 <About/>
               </Route>

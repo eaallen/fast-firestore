@@ -12,11 +12,16 @@ export default function Top(props){
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                <Link to="/About">
-                    <Nav>
-                        About
-                    </Nav>
-                </Link>
+                    <Link to="/About">
+                        <Nav>
+                            About
+                        </Nav>
+                    </Link>
+                    <Link to="/Contact">
+                        <Nav>
+                            Contact
+                        </Nav>
+                    </Link>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
