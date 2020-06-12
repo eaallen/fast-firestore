@@ -6,7 +6,7 @@ class FastFirestoreBase extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            api_key:'',
+            api_key:'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcm9kLXVzZXItY2xpZW50OmVhYWxsZW4iLCJpc3MiOiJhZ2VudDplYWFsbGVuOjo0YzBlYWQ5YS1kODE5LTQzMWMtYjVmOS0zNGEwZDE5MzRkOGQiLCJpYXQiOjE1Nzc3MTc5OTcsInJvbGUiOlsidXNlcl9hcGlfcmVhZCIsInVzZXJfYXBpX3dyaXRlIl0sImdlbmVyYWwtcHVycG9zZSI6dHJ1ZSwic2FtbCI6e319.XbV9G84LNvqN6RREjPKFlDLQrTtzUu5KVu46xDS7TOtGnMZ94h1PrNaAkQ6zT-79QOM7Ku2GrZdivguQ_o9jsw',
             dw_data_set:'kandykane',
             data_set_name:'',
             file_name: 'customer',
@@ -32,25 +32,40 @@ class FastFirestoreBase extends React.Component{
     async get_dw_data(e){
         e.preventDefault()
         let resp
+        let dataset_info // used to get info about the data set
         this.setState({error:'',getting_data:true})
         try{
             console.log('click')
             resp = await axios({
                 url: `https://api.data.world/v0/sql/${this.state.user_name}/${this.state.dw_data_set}`,
-                data:{query: `SELECT * FROM ${this.state.file_name}`},
+                data:{query: `SELECT * FROM ${this.state.file_name} Limit 5`},
                 // url: `https://api.data.world/v0/sql/eaallen/kandykane`,
                 // data:{query: `SELECT * FROM customer`},
                 headers:{
-                    Authorization: "Bearer "+"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcm9kLXVzZXItY2xpZW50OmVhYWxsZW4iLCJpc3MiOiJhZ2VudDplYWFsbGVuOjo0YzBlYWQ5YS1kODE5LTQzMWMtYjVmOS0zNGEwZDE5MzRkOGQiLCJpYXQiOjE1Nzc3MTc5OTcsInJvbGUiOlsidXNlcl9hcGlfcmVhZCIsInVzZXJfYXBpX3dyaXRlIl0sImdlbmVyYWwtcHVycG9zZSI6dHJ1ZSwic2FtbCI6e319.XbV9G84LNvqN6RREjPKFlDLQrTtzUu5KVu46xDS7TOtGnMZ94h1PrNaAkQ6zT-79QOM7Ku2GrZdivguQ_o9jsw" //this.state.api_key
+                    Authorization: "Bearer "+this.state.api_key
+                },
+            })
+            dataset_info = await axios({ // make sure this only return 1 row
+                url: `https://api.data.world/v0/sql/${this.state.user_name}/${this.state.dw_data_set}`,
+                data:{query: `SELECT COUNT(*) as row_count FROM ${this.state.file_name} Limit 1`},
+                // url: `https://api.data.world/v0/sql/eaallen/kandykane`,
+                // data:{query: `SELECT * FROM customer`},
+                headers:{
+                    Authorization: "Bearer "+this.state.api_key
                 },
             })
             console.log('response from data.world',resp)
             // this.props.context.push_dataset_to_obj(this.state.dw_data_set+"_"+this.state.file_name ,resp.data)
             const name = this.state.dw_data_set+"_"+this.state.file_name
-            const selectedFile = {
-                name: this.state.file_name
+            const meta_data = {
+                name: this.state.file_name,
+                user: this.state.user_name,
+                api_key: this.state.api_key,
+                dw_data_set: this.state.dw_data_set,
+                src: "data.world",
+                dataset_info: dataset_info.data[0]
             }
-            this.props.context.create_dataset(name,resp.data,selectedFile)
+            this.props.context.create_dataset(name,resp.data,meta_data)
             this.setState({getting_data:false})
         }catch(e){
            this.setState({error:'Connection Error'})

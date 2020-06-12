@@ -114,19 +114,19 @@
   left: 0;
   right: 0;
 }
+.header-opt{
+  margin-left: 1rem;
+}
+.me{
+  width: 90%;
+}
+.br-whitesmoke{
+  background-color: whitesmoke;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
+.about-img{
+  width: 75%;
+}
 
 
 

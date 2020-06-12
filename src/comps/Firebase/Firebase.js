@@ -295,9 +295,8 @@ export const AppContext = React.createContext()
         }
       }
       pushDataToFirestore = async(dataset_name) => {
-        console.log("in pushDataToFirestore()")
-        const dataset_info = this.state.super_ds[dataset_name]
-        if(Object.values(dataset_info.sub_collection_settings).length===0){
+        const single_ds = async() =>{
+          console.log("func")
           const collection = this.secondaryDatabase.collection(dataset_name)
           let i = 0
           for(const obj of dataset_info.data){
@@ -306,8 +305,10 @@ export const AppContext = React.createContext()
             this.setState(state=> produce(state, draft=>{
               draft.super_ds[dataset_name].loading_info.loading = i
             }))
-              }
-        }else{
+          }
+
+        }
+        const with_sub_ds = async() =>{
           let i = 0
           console.log("more work ahead")
           for(const obj of dataset_info.data){
@@ -329,6 +330,50 @@ export const AppContext = React.createContext()
               draft.super_ds[dataset_name].loading_info.loading = i
             }))
           }
+        }
+        console.log("in pushDataToFirestore()")
+        const dataset_info = {}
+        Object.defineProperties(dataset_info,{
+          data:{
+            value: this.state.super_ds[dataset_name].data,
+            writable: true
+          },
+          meta:{
+            value: this.state.super_ds[dataset_name].meta,
+            writable: false
+          },
+          sub_collection_settings:{
+            value: this.state.super_ds[dataset_name].sub_collection_settings,
+            writable: false
+          }
+        })
+        console.log(dataset_info,"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+        // let dataset_info = this.state.super_ds[dataset_name]
+        if(dataset_info.meta.src==="data.world"){
+          // get all of the data
+          for(let icount = 0; icount < dataset_info.meta.dataset_info.row_count + 100; icount += 100){
+
+            const resp = await axios({
+              url: `https://api.data.world/v0/sql/${dataset_info.meta.user}/${dataset_info.meta.dw_data_set}`,
+              data:{query: `SELECT * FROM ${dataset_info.meta.name} Limit 10 OFFSET ${icount}`},
+              headers:{
+                  Authorization: "Bearer "+dataset_info.meta.api_key
+              },
+            })
+            Object.defineProperty(dataset_info, "data", {
+              value: resp.data
+            })
+            console.log("the batched data--------->", dataset_info.data)
+            if(Object.values(dataset_info.sub_collection_settings).length===0){single_ds()}
+            else{with_sub_ds()}
+          }
+          // dataset_info.data = resp.data
+        }
+        console.log("----DATA---->",dataset_info.data)
+        if(Object.values(dataset_info.sub_collection_settings).length===0){
+          single_ds()
+        }else{
+          with_sub_ds()
         }
         this.setState(state=> produce(state, draft=>{
           draft.super_ds[dataset_name].loading_info.loading = null
