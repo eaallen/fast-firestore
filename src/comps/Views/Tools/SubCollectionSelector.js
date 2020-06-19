@@ -1,5 +1,5 @@
 import React from 'react'
-import {Modal, Collapse, Button} from 'react-bootstrap'
+import {Collapse, Button} from 'react-bootstrap'
 import { Toggle } from './Toggle'
 import produce from 'immer'
 import { withFirebase } from '../../Firebase'
@@ -67,11 +67,11 @@ class SubCollectionSelectorBase extends React.Component{
     }
     cancel = () => {
         console.log("cancle")
-        for(const key in this.state){
-            this.setState(state=> produce(state, draft=>{
-                draft.setting = {}
-            }))
-        }
+
+        this.setState(state=> produce(state, draft=>{
+            draft.setting = {}
+        }))
+        
         this.props.context.remove_a_sub_coll_setting(this.props.table_name, this.props.title)
     }
     is_state_empty = () =>{

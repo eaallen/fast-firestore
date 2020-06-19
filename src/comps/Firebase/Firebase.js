@@ -69,22 +69,10 @@ export const AppContext = React.createContext()
           super_ds: {},
           sec_firestore: null,
         }
-        // console.log('here')
-        var defaultProject = firebase.initializeApp(config);
-        let sec = firebase.initializeApp(secondary_config, "testing_only");
-        console.log(sec.name)
-        this.secondaryDatabase = sec.firestore();
-         // var sec = firebase.initializeApp(secondary_config, "secondary");
+        firebase.initializeApp(config);
         console.log(firebase.app().name);  // "[DEFAULT]"
         this.auth = firebase.auth();
         this.db = firebase.firestore()
-        // this.googleProvider =new app.auth.GoogleAuthProvider();
-
-        // secoudary config database connection
-        // console.log('secoundary', secondary)
-        // console.log('default' )
-        // this.secondaryDatabase = sec.firestore();
-
 
         this.auth.onAuthStateChanged(function(user) {
           if (user){
@@ -261,18 +249,17 @@ export const AppContext = React.createContext()
         const single_ds = async() =>{
           console.log("func")
           const collection = this.state.sec_firestore.collection(dataset_name)
-          let i = 0
+          // let i = 0
           for(const obj of dataset_info.data){
             await collection.add(obj)
-            ++i
-            this.setState(state=> produce(state, draft=>{
-              draft.super_ds[dataset_name].loading_info.loading = i
-            }))
+            // this.setState(state=> produce(state, draft=>{
+            //   draft.super_ds[dataset_name].loading_info.loading = i
+            // }))
           }
 
         }
         const with_sub_ds = async() =>{
-          let i = 0
+          // let i = 0
           console.log("more work ahead")
           for(const obj of dataset_info.data){
             const document = this.state.sec_firestore.collection(dataset_name).doc()
@@ -288,10 +275,10 @@ export const AppContext = React.createContext()
               }  
             }
             await document.set(obj)
-            ++i
-            this.setState(state=> produce(state, draft=>{
-              draft.super_ds[dataset_name].loading_info.loading = i
-            }))
+            // ++i
+            // this.setState(state=> produce(state, draft=>{
+            //   draft.super_ds[dataset_name].loading_info.loading = i // keeping this to set up loading bar latter
+            // }))
           }
         }
         console.log("in pushDataToFirestore()")

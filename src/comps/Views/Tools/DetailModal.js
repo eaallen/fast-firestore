@@ -2,9 +2,6 @@ import React from 'react'
 import { withFirebase } from '../../Firebase'
 import {Modal,Table, Row, Col} from 'react-bootstrap'
 class DetailModalBase extends React.Component{
-    constructor(props){
-        super(props)
-    }
     render(){
         const upload_info  = this.props.context.super_ds[this.props.home_dataset].loading_info
         const data = this.props.context.super_ds[this.props.home_dataset].data

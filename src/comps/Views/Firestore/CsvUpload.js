@@ -1,7 +1,6 @@
 import React from 'react'
 import { withFirebase } from '../../Firebase'
 import Papa from 'papaparse'
-import { Form } from 'react-bootstrap'
 class CsvUploadBase extends React.Component{
     constructor(props){
         super(props)

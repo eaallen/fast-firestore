@@ -1,6 +1,6 @@
 import React from 'react'
 import { withFirebase } from '../../Firebase'
-import {Button, Form,Row,Col} from 'react-bootstrap'
+import {Button, Form} from 'react-bootstrap'
 class ConfigCollectionBase extends React.Component{
     constructor(props){
         super(props)

@@ -4,7 +4,6 @@ import FastFirestore from '../Firestore/FastFirestore'
 import ShowManyDatasets from '../InnerCollection/ShowManyDatasets'
 import CsvUpload from '../Firestore/CsvUpload'
 import ConfigCollection from '../Firestore/ConfigCollection'
-import produce from 'immer'
 import { withFirebase } from '../../Firebase'
 class HomeBase extends React.Component{
     constructor(props){

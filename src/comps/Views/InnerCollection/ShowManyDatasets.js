@@ -1,8 +1,6 @@
 import React from 'react'
 import { withFirebase } from '../../Firebase'
-import { Table, CardColumns,} from 'react-bootstrap'
-import { Toggle } from '../Tools/Toggle'
-import SubCollectionSelector from '../Tools/SubCollectionSelector'
+import {CardColumns,} from 'react-bootstrap'
 import InfoCard from '../Tools/InfoCard'
 
 class ShowManyDatasetsBase extends React.Component{

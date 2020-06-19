@@ -5,9 +5,6 @@ import { withFirebase } from '../../Firebase'
 import {Collapse, Spinner, ProgressBar} from 'react-bootstrap'
 import DetailModal from './DetailModal'
 class InfoCardBase extends React.Component{
-    constructor(props){
-        super(props)
-    }
     show_color = (asi,col_name) =>{
         // display a diferent className if the colukmn name has a sub colection 
         if(asi.length === 0){
