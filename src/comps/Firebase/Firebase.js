@@ -272,11 +272,12 @@ export const AppContext = React.createContext()
                 const sub_ds = this.state.super_ds[key]
                 if(sub_ds.meta.src==='data.world'){
                   for(let icount = 0; icount < sub_ds.meta.dataset_info.row_count + 100; icount += 100){
-                    const data =  get_dw_data_for_sub_collection(sub_ds, icount)
+                    const data = await get_dw_data_for_sub_collection(sub_ds, icount) // currently this just grabs all the data then we run our own filter, it might e better to put the filter in the orignal query using the WHERE clause
+                    console.log(",,,,,,,,,,,>>>>>>>><<<<<<<<<  d  a  t  a    >>>>>>>>>", data)
                     for(const child_row of data){
                       if(child_row[dataset_info.sub_collection_settings[KEY][key]]===obj[KEY]){
                         await sub_coll.add(child_row)
-                        console.log("we got it!")
+                        console.log("we DW got it!")
                       }
                     }
 
