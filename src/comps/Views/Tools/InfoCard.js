@@ -2,7 +2,7 @@ import React from 'react'
 import {Toggle} from './Toggle'
 import SubCollectionSelector from './SubCollectionSelector'
 import { withFirebase } from '../../Firebase'
-import {Collapse, Spinner, ProgressBar} from 'react-bootstrap'
+import {Collapse, Spinner, /*ProgressBar*/} from 'react-bootstrap'
 import DetailModal from './DetailModal'
 class InfoCardBase extends React.Component{
     show_color = (asi,col_name) =>{
@@ -64,7 +64,7 @@ class InfoCardBase extends React.Component{
                                     </>}</Toggle>
                                     <div onClick={e=>this.props.context.pushDataToFirestore(this.props.head)}>
                                        <span> Push to Firestore
-                                        {
+                                        {/*
                                             this.props.obj.loading_info.loading?
                                                 <ProgressBar 
                                                     variant="info"
@@ -82,6 +82,12 @@ class InfoCardBase extends React.Component{
                                             </>
                                             :
                                             <></>
+                                        */}
+                                        {
+                                           this.props.obj.loading_info.loading?
+                                           <p>loading</p>
+                                           :
+                                           <></>
                                         }
                                         </span>
                                     </div>

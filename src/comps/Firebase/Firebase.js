@@ -246,6 +246,9 @@ export const AppContext = React.createContext()
         this.setState({...this.state, loading:true})
       }
       pushDataToFirestore = async(dataset_name) => {
+        await this.setState(state=> produce(state, draft=>{
+          draft.super_ds[dataset_name].loading_info.loading = true
+        }))
         const single_ds = async() =>{
           console.log("func")
           const collection = this.state.sec_firestore.collection(dataset_name)
@@ -305,7 +308,7 @@ export const AppContext = React.createContext()
 
             const resp = await axios({
               url: `https://api.data.world/v0/sql/${dataset_info.meta.user}/${dataset_info.meta.dw_data_set}`,
-              data:{query: `SELECT * FROM ${dataset_info.meta.name} Limit 10 OFFSET ${icount}`},
+              data:{query: `SELECT * FROM ${dataset_info.meta.name} Limit 100 OFFSET ${icount}`},
               headers:{
                   Authorization: "Bearer "+dataset_info.meta.api_key
               },
@@ -314,8 +317,9 @@ export const AppContext = React.createContext()
               value: resp.data
             })
             console.log("the batched data--------->", dataset_info.data)
-            if(Object.values(dataset_info.sub_collection_settings).length===0){single_ds()}
-            else{with_sub_ds()}
+            if(Object.values(dataset_info.sub_collection_settings).length===0){
+              single_ds()
+            }else{with_sub_ds()}
           }
           // dataset_info.data = resp.data
         }
@@ -325,8 +329,8 @@ export const AppContext = React.createContext()
         }else{
           with_sub_ds()
         }
-        this.setState(state=> produce(state, draft=>{
-          draft.super_ds[dataset_name].loading_info.loading = null
+        await this.setState(state=> produce(state, draft=>{
+          draft.super_ds[dataset_name].loading_info.loading = false
           draft.super_ds[dataset_name].loading_info.uploaded = true
         }))
         // firebase.app('second_configure').delete();
