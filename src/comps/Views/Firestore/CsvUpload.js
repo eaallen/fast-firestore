@@ -36,6 +36,7 @@ class CsvUploadBase extends React.Component{
                 complete: async(results) => {
                 var data = results.data
                 console.log('data',data)
+                selectedFile.dataset_info={row_count:data.length}
                 this.props.context.create_dataset(name,data,selectedFile)
             }})
         }

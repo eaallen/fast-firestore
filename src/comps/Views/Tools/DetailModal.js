@@ -99,7 +99,7 @@ class DetailModalBase extends React.Component{
                         </tbody>
                     </Table>
                     <div>
-                        Showing {row_count+1} of {data.length} rows
+                        Showing {row_count+1} of {info.dataset_info.row_count} rows
                     </div>
                 </Modal.Body>
             </Modal>
