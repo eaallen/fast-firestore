@@ -272,7 +272,7 @@ export const AppContext = React.createContext()
                 const sub_ds = this.state.super_ds[key]
                 if(sub_ds.meta.src==='data.world'){
                   for(let icount = 0; icount < sub_ds.meta.dataset_info.row_count + 100; icount += 100){
-                    const data = await get_dw_data_for_sub_collection(sub_ds, icount) // currently this just grabs all the data then we run our own filter, it might e better to put the filter in the orignal query using the WHERE clause
+                    const data = await get_dw_data_for_sub_collection(sub_ds, icount) // currently this just grabs all the data then we run our own filter, it might e better to put the filter in the orignal query using the WHERE
                     console.log(",,,,,,,,,,,>>>>>>>><<<<<<<<<  d  a  t  a    >>>>>>>>>", data)
                     for(const child_row of data){
                       if(child_row[dataset_info.sub_collection_settings[KEY][key]]===obj[KEY]){
@@ -309,26 +309,6 @@ export const AppContext = React.createContext()
           })
           return resp.data
         }
-        const handle_dw = async(ds_info) =>{
-          // get all of the data
-          for(let icount = 0; icount < ds_info.meta.dataset_info.row_count + 100; icount += 100){
-
-            const resp = await axios({
-              url: `https://api.data.world/v0/sql/${ds_info.meta.user}/${ds_info.meta.dw_data_set}`,
-              data:{query: `SELECT * FROM ${ds_info.meta.name} Limit 100 OFFSET ${icount}`},
-              headers:{
-                  Authorization: "Bearer "+ds_info.meta.api_key
-              },
-            })
-            Object.defineProperty(ds_info, "data", {
-              value: resp.data
-            })
-            console.log("the batched data--------->", ds_info.data)
-            if(Object.values(ds_info.sub_collection_settings).length===0){
-              single_ds()
-            }else{with_sub_ds()}
-          }
-        }
         console.log("in pushDataToFirestore()")
         const dataset_info = {}
         Object.defineProperties(dataset_info,{
@@ -348,7 +328,7 @@ export const AppContext = React.createContext()
         console.log(dataset_info,"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
         // let dataset_info = this.state.super_ds[dataset_name]
         if(dataset_info.meta.src==="data.world"){
-          handle_dw(dataset_info)
+          // handle_dw(dataset_info)
           // get all of the data
           for(let icount = 0; icount < dataset_info.meta.dataset_info.row_count + 100; icount += 100){
 
