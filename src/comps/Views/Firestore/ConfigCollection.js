@@ -19,6 +19,7 @@ class ConfigCollectionBase extends React.Component{
     async handle_click(e){
         e.preventDefault()
         await this.props.context.doSetState({second_config:await this.parse_and_send()})
+        await this.props.context.init_secoundary_firebase()
 
     }
     //add the attribute component to the array in state

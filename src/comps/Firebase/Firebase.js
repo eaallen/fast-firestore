@@ -1,5 +1,5 @@
-import app from 'firebase/app';
-import firebase from 'firebase'
+// import app from 'firebase/app';
+import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 import React from 'react' 
@@ -63,9 +63,11 @@ export const AppContext = React.createContext()
           delete_dataset: this.delete_dataset,
           create_dataset: this.create_dataset,
           remove_a_sub_coll_setting: this.remove_a_sub_coll_setting,
+          init_secoundary_firebase: this.init_secoundary_firebase,
         }
         this.state = {
           super_ds: {},
+          sec_firestore: null,
         }
         // console.log('here')
         var defaultProject = firebase.initializeApp(config);
@@ -255,49 +257,10 @@ export const AppContext = React.createContext()
       loader=()=>{          
         this.setState({...this.state, loading:true})
       }
-      loadFakeData=async(collection)=>{
-        try{
-          const names =  [['Qabil','Fabiana'],['Fabiano','Qacha'],['Qadan','Fabiola'],['Fabrice','Qadir'],['Qadr','Fabunni'],['Facebook','Qamar']]
-          // let cust = this.db.collection("customers").doc()
-          // console.log('YEEET',cust.id)
-          for(let name of names){
-            // make a customer instance
-            let cust = this.db.collection(collection).doc()
-            //make data instance inside customer
-            let tasks = this.db.collection(`${collection}/${cust.id}/tasks`)
-            //task data fir customer
-            tasks.add({
-              start_date:firebase.firestore.Timestamp.fromDate(new Date("December 10, 1815")),
-              end_date:firebase.firestore.Timestamp.fromDate(new Date("December 12, 1815")),
-              charge:"$20.00",
-              task_desc:'cleaning',
-            })
-            tasks.add({
-              start_date:firebase.firestore.Timestamp.fromDate(new Date("August 20, 1830")),
-              end_date:firebase.firestore.Timestamp.fromDate(new Date("September 1, 1830")),
-              charge:"$100.00",
-              task_desc:'repair',
-            })    
-            //customer data
-            cust.set({
-              first_name: name[0],
-              last_name: name[1],
-              phone_number: "123 321 1232",
-              email_address: 'san@fake.come',
-              last_in: firebase.firestore.Timestamp.fromDate(new Date("September 1, 1830")),
-              recent_task: 'repair',
-              notes: 'Nullam commodo eros ut commodo aliquam. Cras vestibulum accumsan bibendum. Morbi tristique massa a elit vehicula pellentesque. Nam iaculis posuere dui eu fermentum. Quisque in lectus leo. Aenean libero nunc, rutrum quis velit vel, tristique vulputate magna. Sed et lorem et lectus tempus dignissim.',
-              date_purchased: firebase.firestore.Timestamp.fromDate(new Date("December 26, 1777")),
-            })
-          }
-        }catch(e){
-          console.error(e)
-        }
-      }
       pushDataToFirestore = async(dataset_name) => {
         const single_ds = async() =>{
           console.log("func")
-          const collection = this.secondaryDatabase.collection(dataset_name)
+          const collection = this.state.sec_firestore.collection(dataset_name)
           let i = 0
           for(const obj of dataset_info.data){
             await collection.add(obj)
@@ -312,10 +275,10 @@ export const AppContext = React.createContext()
           let i = 0
           console.log("more work ahead")
           for(const obj of dataset_info.data){
-            const document = this.secondaryDatabase.collection(dataset_name).doc()
+            const document = this.state.sec_firestore.collection(dataset_name).doc()
             for(const KEY in dataset_info.sub_collection_settings){
               for(const key in dataset_info.sub_collection_settings[KEY]){
-                const sub_coll = this.secondaryDatabase.collection(`${dataset_name}/${document.id}/${key}`)
+                const sub_coll = this.state.sec_firestore.collection(`${dataset_name}/${document.id}/${key}`)
                 for(const child_row of this.state.super_ds[key].data){
                   if(child_row[dataset_info.sub_collection_settings[KEY][key]]===obj[KEY]){
                     await sub_coll.add(child_row)
@@ -379,9 +342,22 @@ export const AppContext = React.createContext()
           draft.super_ds[dataset_name].loading_info.loading = null
           draft.super_ds[dataset_name].loading_info.uploaded = true
         }))
-  }
+        // firebase.app('second_configure').delete();
+      }
       
-      pushDataWithSubCollectionToFirestore = async () =>{
+      init_secoundary_firebase = async() =>{
+        if(this.state.sec_firestore){
+          await firebase.app('second_configure').delete();
+        }
+        let sec = firebase.initializeApp(this.state.second_config, "second_configure");
+        let sec_db = sec.firestore(); 
+        
+        this.setState(state=> produce(state, draft=>{
+          draft.sec_firestore = sec_db
+        }))
+      }
+
+      pushDataWithSubCollectionToFirestore = async () =>{ // dont use this one
         console.log("in pushDataWithSubCollectionToFirestore()")
         let sec = firebase.initializeApp(secondary_config, "testing_only");
         console.log(sec.name);    // "otherProject name"

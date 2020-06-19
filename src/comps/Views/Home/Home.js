@@ -26,7 +26,7 @@ class HomeBase extends React.Component{
                         </h4>
                         <ConfigCollection/>
                     </div>
-                    <DataModal/>
+                    <DataModal context={this.props.context}/>
                 </div>
                 <div className="work-area">
                     <ShowManyDatasets/>
@@ -47,7 +47,7 @@ function DataModal(props) {
   
     return (
       <>
-        <Button variant="primary" onClick={handleShow}>
+        <Button variant="primary" onClick={handleShow} disabled={props.context.sec_firestore? false : true} title={props.context.sec_firestore? "Get data to push to firestore" : "You must enter your firebase config info first"}>
           Launch Data Selector
         </Button>
   

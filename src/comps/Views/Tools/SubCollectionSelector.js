@@ -83,7 +83,6 @@ class SubCollectionSelectorBase extends React.Component{
     save_action = () =>{
     }
     render(){
-        console.log("this dot state------<>",this.state)
         return(<>
             <Collapse in ={this.props.control.value}
                 
