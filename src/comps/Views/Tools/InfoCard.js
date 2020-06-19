@@ -85,7 +85,7 @@ class InfoCardBase extends React.Component{
                                         */}
                                         {
                                            this.props.obj.loading_info.loading?
-                                           <p>loading</p>
+                                           <p>loading...</p>
                                            :
                                            <></>
                                         }

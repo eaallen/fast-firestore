@@ -263,13 +263,13 @@ export const AppContext = React.createContext()
         }
         const with_sub_ds = async() =>{
           // let i = 0
-          console.log("more work ahead")
+          console.log("more work ahead-------dataset_info.data.length",dataset_info.data.length)
           for(const obj of dataset_info.data){
             const document = this.state.sec_firestore.collection(dataset_name).doc()
             for(const KEY in dataset_info.sub_collection_settings){
               for(const key in dataset_info.sub_collection_settings[KEY]){
                 const sub_coll = this.state.sec_firestore.collection(`${dataset_name}/${document.id}/${key}`)
-                for(const child_row of this.state.super_ds[key].data){
+                for(const child_row of this.state.super_ds[key].data){ //<------ this maybe a problem
                   if(child_row[dataset_info.sub_collection_settings[KEY][key]]===obj[KEY]){
                     await sub_coll.add(child_row)
                     console.log("we got it!")
@@ -322,12 +322,14 @@ export const AppContext = React.createContext()
             }else{with_sub_ds()}
           }
           // dataset_info.data = resp.data
-        }
-        console.log("----DATA---->",dataset_info.data)
-        if(Object.values(dataset_info.sub_collection_settings).length===0){
-          single_ds()
         }else{
-          with_sub_ds()
+          console.log("----DATA---->",dataset_info.data)
+          if(Object.values(dataset_info.sub_collection_settings).length===0){
+            single_ds()
+          }else{
+            with_sub_ds()
+          }
+  
         }
         await this.setState(state=> produce(state, draft=>{
           draft.super_ds[dataset_name].loading_info.loading = false
