@@ -267,12 +267,26 @@ export const AppContext = React.createContext()
           for(const obj of dataset_info.data){
             const document = this.state.sec_firestore.collection(dataset_name).doc()
             for(const KEY in dataset_info.sub_collection_settings){
-              for(const key in dataset_info.sub_collection_settings[KEY]){
-                const sub_coll = this.state.sec_firestore.collection(`${dataset_name}/${document.id}/${key}`)
-                for(const child_row of this.state.super_ds[key].data){ //<------ this maybe a problem
-                  if(child_row[dataset_info.sub_collection_settings[KEY][key]]===obj[KEY]){
-                    await sub_coll.add(child_row)
-                    console.log("we got it!")
+              for(const key in dataset_info.sub_collection_settings[KEY]){ // key is the dataset name of what we are joining
+                const sub_coll = this.state.sec_firestore.collection(`${dataset_name}/${document.id}/${key}`) // build the sub collection call it value of key
+                const sub_ds = this.state.super_ds[key]
+                if(sub_ds.meta.src==='data.world'){
+                  for(let icount = 0; icount < sub_ds.meta.dataset_info.row_count + 100; icount += 100){
+                    const data =  get_dw_data_for_sub_collection(sub_ds, icount)
+                    for(const child_row of data){
+                      if(child_row[dataset_info.sub_collection_settings[KEY][key]]===obj[KEY]){
+                        await sub_coll.add(child_row)
+                        console.log("we got it!")
+                      }
+                    }
+
+                  }
+                }else{
+                  for(const child_row of this.state.super_ds[key].data){ //<------ this maybe a problem
+                    if(child_row[dataset_info.sub_collection_settings[KEY][key]]===obj[KEY]){
+                      await sub_coll.add(child_row)
+                      console.log("we got it!")
+                    }
                   }
                 }
               }  
@@ -282,6 +296,36 @@ export const AppContext = React.createContext()
             // this.setState(state=> produce(state, draft=>{
             //   draft.super_ds[dataset_name].loading_info.loading = i // keeping this to set up loading bar latter
             // }))
+          }
+        }
+        const get_dw_data_for_sub_collection = async(ds_info, num_row) =>{
+          const resp = await axios({
+            url: `https://api.data.world/v0/sql/${ds_info.meta.user}/${ds_info.meta.dw_data_set}`,
+            data:{query: `SELECT * FROM ${ds_info.meta.name} Limit 100 OFFSET ${num_row}`},
+            headers:{
+                Authorization: "Bearer "+ds_info.meta.api_key
+            },
+          })
+          return resp.data
+        }
+        const handle_dw = async(ds_info) =>{
+          // get all of the data
+          for(let icount = 0; icount < ds_info.meta.dataset_info.row_count + 100; icount += 100){
+
+            const resp = await axios({
+              url: `https://api.data.world/v0/sql/${ds_info.meta.user}/${ds_info.meta.dw_data_set}`,
+              data:{query: `SELECT * FROM ${ds_info.meta.name} Limit 100 OFFSET ${icount}`},
+              headers:{
+                  Authorization: "Bearer "+ds_info.meta.api_key
+              },
+            })
+            Object.defineProperty(ds_info, "data", {
+              value: resp.data
+            })
+            console.log("the batched data--------->", ds_info.data)
+            if(Object.values(ds_info.sub_collection_settings).length===0){
+              single_ds()
+            }else{with_sub_ds()}
           }
         }
         console.log("in pushDataToFirestore()")
@@ -303,6 +347,7 @@ export const AppContext = React.createContext()
         console.log(dataset_info,"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
         // let dataset_info = this.state.super_ds[dataset_name]
         if(dataset_info.meta.src==="data.world"){
+          handle_dw(dataset_info)
           // get all of the data
           for(let icount = 0; icount < dataset_info.meta.dataset_info.row_count + 100; icount += 100){
 
@@ -321,7 +366,6 @@ export const AppContext = React.createContext()
               single_ds()
             }else{with_sub_ds()}
           }
-          // dataset_info.data = resp.data
         }else{
           console.log("----DATA---->",dataset_info.data)
           if(Object.values(dataset_info.sub_collection_settings).length===0){
