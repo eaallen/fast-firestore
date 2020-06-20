@@ -9,6 +9,9 @@ export default function About(props){
             <h2>
                 About this App
             </h2>
+            <p className='text-muted'>
+                This app is still in development. 
+            </p>
             <div>
                 <Row>
                     <Col className="text-right">
