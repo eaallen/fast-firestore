@@ -1,6 +1,8 @@
 import React from 'react'
 import{Form, Button, Row, Col} from 'react-bootstrap'
 import axios from 'axios'
+
+// provide users a way to contact me plus show off some no server skills 
 export default class Contact extends React.Component{
     constructor(props){
         super(props)

@@ -3,6 +3,8 @@ import {Collapse, Button} from 'react-bootstrap'
 import { Toggle } from './Toggle'
 import produce from 'immer'
 import { withFirebase } from '../../Firebase'
+
+// lets the user assign subcollections to collections i.e joins datasets
 class SubCollectionSelectorBase extends React.Component{
     constructor(props){
         super(props)
@@ -36,7 +38,7 @@ class SubCollectionSelectorBase extends React.Component{
             return "#a6dbff"
         }
     }
-    save = () =>{
+    save = () =>{ // adds the sub_collections settings to the super_ds dictionary 
         console.log("save", this.props.table_name, this.props.title)
         let child_collections = {}
         
@@ -65,7 +67,7 @@ class SubCollectionSelectorBase extends React.Component{
         this.props.context.add_sub_coll_setting_tp_super_ds(this.props.table_name,this.props.title,child_collections)
 
     }
-    cancel = () => {
+    cancel = () => { // remover the sub_collections settings from the super_ds dictionary 
         console.log("cancle")
 
         this.setState(state=> produce(state, draft=>{

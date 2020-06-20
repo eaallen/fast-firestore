@@ -4,7 +4,9 @@ import SubCollectionSelector from './SubCollectionSelector'
 import { withFirebase } from '../../Firebase'
 import {Collapse, Spinner, /*ProgressBar*/} from 'react-bootstrap'
 import DetailModal from './DetailModal'
-class InfoCardBase extends React.Component{
+
+// User interface to work with datasets
+class InfoCardBase extends React.Component{ 
     show_color = (asi,col_name) =>{
         // display a diferent className if the colukmn name has a sub colection 
         if(asi.length === 0){
@@ -51,19 +53,22 @@ class InfoCardBase extends React.Component{
                 </div>
                 <div className="infocard-footer text-left">
                     <Toggle>{footTog=><>
-                        <div onClick={footTog.toggle}>
+                        <div className="pointer pl-1" onClick={footTog.toggle}>
                             Tools
                         </div>
                         <Collapse in={footTog.value} timeout={500}>
                             <div>
                                 <div className="pl-3" > 
-                                    <div>Help</div>
                                     <Toggle>{deet=><>
-                                        <div onClick={deet.toggle}>Details</div>
+                                        <div onClick={deet.toggle}> 
+                                            <span className="pointer">
+                                                Details
+                                            </span>
+                                        </div>
                                         <DetailModal show={deet.value} control={deet} home_dataset={this.props.head}/>
                                     </>}</Toggle>
                                     <div onClick={e=>this.props.context.pushDataToFirestore(this.props.head)}>
-                                       <span> Push to Firestore
+                                       <span className="pointer"> Push to Firestore
                                         {/*
                                             this.props.obj.loading_info.loading?
                                                 <ProgressBar 
@@ -87,7 +92,13 @@ class InfoCardBase extends React.Component{
                                            this.props.obj.loading_info.loading?
                                            <p> loading...</p>
                                            :
+                                           this.props.obj.loading_info.uploaded?
+                                           <p>
+                                              Upload Complete 
+                                           </p>
+                                           :
                                            <></>
+
                                         }
                                         </span>
                                     </div>

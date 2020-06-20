@@ -1,6 +1,8 @@
 import React from 'react'
 import { Row, Col } from 'react-bootstrap'
 
+
+// just to explain to users how to use this thang
 export default function About(props){
     return(
         <div>
