@@ -25,6 +25,12 @@ export default function Top(props){
                             Contact
                         </Link>
                     </div>
+
+                    <div className="header-opt">
+                        <a href="https://github.com/eaallen/fast-firestore">
+                            GitHub
+                        </a>
+                    </div>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>

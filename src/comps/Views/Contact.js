@@ -37,9 +37,17 @@ export default class Contact extends React.Component{
                 <Form onSubmit={e=> this.handle_submit(e)}>
                     <Row>
                         <Col md={3}>
-                            <img src="/me.jpg" className="img-thumbnail rounded-circle me" title="thats me, Elijah Allen" alt="Elijah Allen"/>
+                            <a href="https://github.com/eaallen">
+                                <img src="/me.jpg" className="img-thumbnail rounded-circle me" title="View GitHub profile" alt="Elijah Allen"/>
+                            </a>
                             <Form.Text className="text-muted">
                                 Elijah Allen
+                                <br/>
+                                <div className="text-left">
+                                I am a Junior Developer who no longer has the time to work on this project alone. 
+                                Please, if you think Fast Firestore is a good idea and would like to see it improved, 
+                                shoot me a short email and I will be happy to make you a contributor.
+                                </div>
                             </Form.Text>
                         </Col>
                         <Col>
@@ -57,7 +65,7 @@ export default class Contact extends React.Component{
                                     I will never share your email with anyone else.
                                 </Form.Text>
                             </Form.Group>
-                            <br/>
+                            
                             <Form.Group controlId="formBasicPassword" className="text-left">
                                 <Form.Label><strong>Subject</strong></Form.Label>
                                 <Form.Control
@@ -68,23 +76,26 @@ export default class Contact extends React.Component{
                                     value={this.state.subject} 
                                 />
                             </Form.Group>
+                            
+                            <Form.Group className="text-left">
+                                <Form.Label ><strong>Your message</strong></Form.Label>
+                                <Form.Control 
+                                    as="textarea"
+                                    value={this.state.message} 
+                                    onChange={e=>this.handle_change(e)} 
+                                    name='message'
+                                    placeholder="Hope you are having a smashing afternoon" 
+                                    rows="5"
+                                    required                  
+                                />
+                            </Form.Group>
+                            <div className="text-right">
+                                <Button variant="primary" type="submit" disabled={this.state.sending}>
+                                    Submit
+                                </Button>
+                            </div>
                         </Col>
                     </Row>
-                    <Form.Group className="text-left">
-                        <Form.Label ><strong>Your message</strong></Form.Label>
-                        <Form.Control 
-                            as="textarea"
-                            value={this.state.message} 
-                            onChange={e=>this.handle_change(e)} 
-                            name='message'
-                            placeholder="Hope you are having a smashing afternoon" 
-                            rows="10"
-                            required                  
-                        />
-                    </Form.Group>
-                    <Button variant="primary" type="submit" disabled={this.state.sending}>
-                        Submit
-                    </Button>
                 </Form>
             </div>
         )
