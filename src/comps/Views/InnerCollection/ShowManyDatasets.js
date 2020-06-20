@@ -3,6 +3,8 @@ import { withFirebase } from '../../Firebase'
 import {CardColumns,} from 'react-bootstrap'
 import InfoCard from '../Tools/InfoCard'
 
+// this is where the InfoCard gets rendered. 
+
 class ShowManyDatasetsBase extends React.Component{
     constructor(props){
         super(props)
@@ -25,13 +27,13 @@ class ShowManyDatasetsBase extends React.Component{
         console.log('state------------',datasets)
         return(
             <div>
-                {/* <CardColumns> */}
+                <CardColumns> {/* CardColumns was a good idea but i dont like the it changes the posisitons of cards after the size changes. later I would like to set up just some columns that cards get assigned to based appon their position in an array */}
                     {Object.entries(datasets).map((data_arr)=> {
                         return(
                             <InfoCard key={data_arr[0]} head={data_arr[0]} obj={data_arr[1]} body={data_arr[1]}/>
                         )
                     })}
-                {/* </CardColumns> */}
+                </CardColumns>
             </div>
 
         )

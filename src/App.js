@@ -13,7 +13,7 @@ import Top from './comps/Views/Top';
 import About from './comps/Views/About'
 import Contact from './comps/Views/Contact'
 import {Container} from 'react-bootstrap'
-function App(props) {
+function App(props) { // handles the routes.  
   return (
     <div className="App">
       <Router>

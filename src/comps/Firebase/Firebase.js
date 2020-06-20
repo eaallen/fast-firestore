@@ -1,4 +1,5 @@
-// import app from 'firebase/app';
+// Firebase.js is where we put any functions that has to work with Firebase, as well as any functions
+// that need to be fired from decendedt comps but proccesed here. 
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
@@ -8,7 +9,7 @@ import produce from 'immer'
 export const AppContext = React.createContext()
 
     const config = {
-      // your config info here
+      // this is our own config so we can host our site. 
       apiKey: "AIzaSyBNqOn-qUE1KbHriylJy_KWLXy8GnyC0mM",
       authDomain: "custom-ring-design.firebaseapp.com",
       databaseURL: "https://custom-ring-design.firebaseio.com",
@@ -18,17 +19,8 @@ export const AppContext = React.createContext()
       appId: "1:401445854653:web:73fe6dc4770d9a7d7946d4",
       measurementId: "G-BB39S0R1HQ",
     };
-    const secondary_config = {
-      apiKey: "AIzaSyBNqOn-qUE1KbHriylJy_KWLXy8GnyC0mM",
-      authDomain: "custom-ring-design.firebaseapp.com",
-      databaseURL: "https://custom-ring-design.firebaseio.com",
-      projectId: "custom-ring-design",
-      storageBucket: "custom-ring-design.appspot.com",
-      messagingSenderId: "401445854653",
-      appId: "1:401445854653:web:7aebdf9d897da9047946d4",
-      measurementId: "G-0V6YPGB45G"
-    }
-   
+
+
     class Firebase extends React.Component {
       constructor(props) {
         super(props)
@@ -344,15 +336,15 @@ export const AppContext = React.createContext()
             })
             console.log("the batched data--------->", dataset_info.data)
             if(Object.values(dataset_info.sub_collection_settings).length===0){
-              single_ds()
-            }else{with_sub_ds()}
+              await single_ds()
+            }else{await with_sub_ds()}
           }
         }else{
           console.log("----DATA---->",dataset_info.data)
           if(Object.values(dataset_info.sub_collection_settings).length===0){
-            single_ds()
+            await single_ds()
           }else{
-            with_sub_ds()
+            await with_sub_ds()
           }
   
         }
@@ -375,29 +367,6 @@ export const AppContext = React.createContext()
         }))
       }
 
-      pushDataWithSubCollectionToFirestore = async () =>{ // dont use this one
-        console.log("in pushDataWithSubCollectionToFirestore()")
-        let sec = firebase.initializeApp(secondary_config, "testing_only");
-        console.log(sec.name);    // "otherProject name"
-        let secondaryDatabase = sec.firestore();
-        for(const item of this.state.arr_settings){
-          for(const p_data_row of this.state.dataset_obj[item.parent_collection_name]){
-            const document = secondaryDatabase.collection(item.parent_collection_name).doc()
-            for( const key in item.child_collections){
-              console.log(item.parent_collection_name, key)
-              const sub = secondaryDatabase.collection(`${item.parent_collection_name}/${document.id}/${key}`) // creating the sub colelction
-              for(const c_data_row of this.state.dataset_obj[key]){
-                if(c_data_row[item.child_collections[key]] === p_data_row[[item.parent_connection_column]]){
-                  sub.add(c_data_row)
-                  console.log("add")
-                }
-              }
-            }
-            document.set(p_data_row)
-          }
-        }
-        this.setState({arr_settings:[]})
-      }
       async componentDidMount(){
         axios.defaults.headers.post['Content-Type'] = 'application/json';
         axios.defaults.method = 'post'    
