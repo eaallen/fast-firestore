@@ -1,6 +1,8 @@
 import React from 'react'
 import { withFirebase } from '../../Firebase'
 import Papa from 'papaparse'
+
+// gets data from .csv and uses papaparse to turn data into js dataset. we need to figure out how to to paginations as well. 
 class CsvUploadBase extends React.Component{
     constructor(props){
         super(props)
@@ -24,7 +26,7 @@ class CsvUploadBase extends React.Component{
         this.setState(new_state)        
     }
 
-    async see_data(){
+    async see_data(){ // parse and format for super_ds
         for(let icount = 0; icount < document.getElementById('myfile').files.length; icount++){
             const selectedFile = document.getElementById('myfile').files[icount];
             const name = selectedFile.name.substring(0, selectedFile.name.indexOf('.'))
@@ -36,7 +38,7 @@ class CsvUploadBase extends React.Component{
                 var data = results.data
                 console.log('data',data)
                 selectedFile.dataset_info={row_count:data.length}
-                this.props.context.create_dataset(name,data,selectedFile)
+                this.props.context.create_dataset(name,data,selectedFile)// title, actual data, meta data
             }})
         }
         document.getElementById('myfile').value = []

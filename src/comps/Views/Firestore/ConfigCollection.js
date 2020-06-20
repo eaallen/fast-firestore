@@ -1,6 +1,8 @@
 import React from 'react'
 import { withFirebase } from '../../Firebase'
 import {Button, Form} from 'react-bootstrap'
+
+// this is where the user put in the firebase config info. 
 class ConfigCollectionBase extends React.Component{
     constructor(props){
         super(props)
@@ -10,20 +12,20 @@ class ConfigCollectionBase extends React.Component{
             error:'',
         }
     }
-    handle_change =(e) => {
+    handle_change =(e) => { // normal form stuff
         e.preventDefault()
         let new_state={[e.target.getAttribute('name')]: e.target.value}
         this.setState(new_state)        
     }
 
-    async handle_click(e){
+    async handle_click(e){ // normal form stuff
         e.preventDefault()
         await this.props.context.doSetState({second_config:await this.parse_and_send()})
         await this.props.context.init_secoundary_firebase()
 
     }
     //add the attribute component to the array in state
-    parse_and_send(){
+    parse_and_send(){ // reads the data and uses regex to find the info to turn into JS object
         try{
             this.setState({error:""})
             //use regex to turn the config string into JSON format

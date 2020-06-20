@@ -1,8 +1,11 @@
 import React from 'react'
 import { withFirebase } from '../../Firebase'
 import {Modal,Table, Row, Col} from 'react-bootstrap'
+
+// shows the user more detailed information about the infoCard / dataset / collection
 class DetailModalBase extends React.Component{
     render(){
+        // simplifying
         const upload_info  = this.props.context.super_ds[this.props.home_dataset].loading_info
         const data = this.props.context.super_ds[this.props.home_dataset].data
         const info = this.props.context.super_ds[this.props.home_dataset].meta

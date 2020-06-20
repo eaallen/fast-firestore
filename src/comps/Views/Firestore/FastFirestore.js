@@ -36,28 +36,23 @@ class FastFirestoreBase extends React.Component{
         this.setState({error:'',getting_data:true})
         try{
             console.log('click')
-            resp = await axios({
+            resp = await axios({ // getting some sample data
                 url: `https://api.data.world/v0/sql/${this.state.user_name}/${this.state.dw_data_set}`,
                 data:{query: `SELECT * FROM ${this.state.file_name} Limit 5`},
-                // url: `https://api.data.world/v0/sql/eaallen/kandykane`,
-                // data:{query: `SELECT * FROM customer`},
                 headers:{
                     Authorization: "Bearer "+this.state.api_key
                 },
             })
-            dataset_info = await axios({ // make sure this only return 1 row
+            dataset_info = await axios({ // make sure this only return 1 row ||| we need this so we know how many rows this data has 
                 url: `https://api.data.world/v0/sql/${this.state.user_name}/${this.state.dw_data_set}`,
                 data:{query: `SELECT COUNT(*) as row_count FROM ${this.state.file_name} Limit 1`},
-                // url: `https://api.data.world/v0/sql/eaallen/kandykane`,
-                // data:{query: `SELECT * FROM customer`},
                 headers:{
                     Authorization: "Bearer "+this.state.api_key
                 },
             })
             console.log('response from data.world',resp)
-            // this.props.context.push_dataset_to_obj(this.state.dw_data_set+"_"+this.state.file_name ,resp.data)
             const name = this.state.dw_data_set+"_"+this.state.file_name
-            const meta_data = {
+            const meta_data = { // build the meta data
                 name: this.state.file_name,
                 user: this.state.user_name,
                 api_key: this.state.api_key,
@@ -65,7 +60,7 @@ class FastFirestoreBase extends React.Component{
                 src: "data.world",
                 dataset_info: dataset_info.data[0]
             }
-            this.props.context.create_dataset(name,resp.data,meta_data)
+            this.props.context.create_dataset(name,resp.data,meta_data) // title, actual data, meta data
             this.setState({getting_data:false})
         }catch(e){
            this.setState({error:'Connection Error'})
@@ -127,9 +122,6 @@ class FastFirestoreBase extends React.Component{
                             required 
                         />
                     </Form.Group>
-                        
-                        {/* https://api.data.world/v0/sql/eaallen/cleancovid */}
-                        {/* eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcm9kLXVzZXItY2xpZW50OmVhYWxsZW4iLCJpc3MiOiJhZ2VudDplYWFsbGVuOjo0YzBlYWQ5YS1kODE5LTQzMWMtYjVmOS0zNGEwZDE5MzRkOGQiLCJpYXQiOjE1Nzc3MTc5OTcsInJvbGUiOlsidXNlcl9hcGlfcmVhZCIsInVzZXJfYXBpX3dyaXRlIl0sImdlbmVyYWwtcHVycG9zZSI6dHJ1ZSwic2FtbCI6e319.XbV9G84LNvqN6RREjPKFlDLQrTtzUu5KVu46xDS7TOtGnMZ94h1PrNaAkQ6zT-79QOM7Ku2GrZdivguQ_o9jsw */}
                         
                     <Button type="submit" disabled={this.state.getting_data}>View data from data.world</Button>
                     <p className="text-danger">{this.state.error}</p>

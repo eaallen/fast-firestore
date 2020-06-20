@@ -1,6 +1,8 @@
 import React from 'react'
 import {Navbar, Nav} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+
+// top nav bar, could really use some more styling
 export default function Top(props){
     return(
         <Navbar>

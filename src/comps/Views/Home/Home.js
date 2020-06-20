@@ -5,6 +5,8 @@ import ShowManyDatasets from '../InnerCollection/ShowManyDatasets'
 import CsvUpload from '../Firestore/CsvUpload'
 import ConfigCollection from '../Firestore/ConfigCollection'
 import { withFirebase } from '../../Firebase'
+
+// home is where the action is
 class HomeBase extends React.Component{
     constructor(props){
         super(props)

@@ -1,3 +1,5 @@
+// stuff for react router, havnt really started implemting it yet but that would probably be a good idea
+
 export const LANDING = '/';
 export const SIGN_UP = '/Signup';
 export const SIGN_IN = '/Login';
