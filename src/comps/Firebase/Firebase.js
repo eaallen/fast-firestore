@@ -10,14 +10,14 @@ export const AppContext = React.createContext()
 
     const config = {
       // this is our own config so we can host our site. 
-      apiKey: "AIzaSyBNqOn-qUE1KbHriylJy_KWLXy8GnyC0mM",
-      authDomain: "custom-ring-design.firebaseapp.com",
-      databaseURL: "https://custom-ring-design.firebaseio.com",
-      projectId: "custom-ring-design",
-      storageBucket: "custom-ring-design.appspot.com",
-      messagingSenderId: "401445854653",
-      appId: "1:401445854653:web:73fe6dc4770d9a7d7946d4",
-      measurementId: "G-BB39S0R1HQ",
+      apiKey: "AIzaSyCLAi1aqn5XLg3BhlSzzbbVbLXkaqT0xd8",
+      authDomain: "fast-firestore.firebaseapp.com",
+      databaseURL: "https://fast-firestore.firebaseio.com",
+      projectId: "fast-firestore",
+      storageBucket: "fast-firestore.appspot.com",
+      messagingSenderId: "215371329534",
+      appId: "1:215371329534:web:7bb27ff3eeab1e89479aaf",
+      measurementId: "G-ZKSKHD461G"
     };
 
 
