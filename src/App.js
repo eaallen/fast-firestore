@@ -13,7 +13,6 @@ import Top from './comps/Views/Top';
 import About from './comps/Views/About'
 import Contact from './comps/Views/Contact'
 import {Container} from 'react-bootstrap'
-import Success from './comps/Success';
 function App(props) { // handles the routes.  
   return (
     <div className="App">
@@ -21,9 +20,6 @@ function App(props) { // handles the routes.
         <Container>
           <Top/>
             <Switch>
-            <Route path="/Contact/Success">
-              <Success/>
-            </Route>
             <Route path="/Contact">
                 <Contact/>
               </Route>

@@ -1,6 +1,7 @@
 import React from 'react'
 import{Form, Button, Row, Col, Spinner} from 'react-bootstrap'
 import axios from 'axios'
+import Success from './Success'
 
 // provide users a way to contact me plus show off some no server skills 
 export default class Contact extends React.Component{
@@ -11,6 +12,7 @@ export default class Contact extends React.Component{
             subject: "",
             message: "",
             sending:false,
+            email_sent:false,
         }
     }
     handle_change =(e) => {
@@ -30,8 +32,16 @@ export default class Contact extends React.Component{
         })
         console.log(email)
         this.setState({sending:false})
+        if(email.data === "success"){
+            this.setState({email_sent:true})
+        }
     }
     render(){
+        if(this.state.email_sent){
+            return(
+                <Success/>
+            )
+        }
         return(
             <div>
                 <Form onSubmit={e=> this.handle_submit(e)}>
