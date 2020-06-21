@@ -1,5 +1,5 @@
 import React from 'react'
-import{Form, Button, Row, Col} from 'react-bootstrap'
+import{Form, Button, Row, Col, Spinner} from 'react-bootstrap'
 import axios from 'axios'
 
 // provide users a way to contact me plus show off some no server skills 
@@ -44,9 +44,9 @@ export default class Contact extends React.Component{
                                 Elijah Allen
                                 <br/>
                                 <div className="text-left">
-                                I am a Junior Developer who no longer has the time to work on this project alone. 
-                                Please, if you think Fast Firestore is a good idea and would like to see it improved, 
-                                shoot me a short email and I will be happy to make you a contributor.
+                                    I am a Junior Developer who no longer has the time to work on this project alone. 
+                                    Please, if you think Fast Firestore is a good idea and would like to see it improved, 
+                                    shoot me a short email and I will be happy to make you a contributor.
                                 </div>
                             </Form.Text>
                         </Col>
@@ -90,9 +90,15 @@ export default class Contact extends React.Component{
                                 />
                             </Form.Group>
                             <div className="text-right">
-                                <Button variant="primary" type="submit" disabled={this.state.sending}>
-                                    Submit
-                                </Button>
+                                {
+                                    this.state.sending?
+                                    <Spinner  animation="border" variant="primary"/>
+                                    :
+                                    <Button variant="primary" type="submit" disabled={this.state.sending}>
+                                        Submit
+                                    </Button>
+
+                                }
                             </div>
                         </Col>
                     </Row>
