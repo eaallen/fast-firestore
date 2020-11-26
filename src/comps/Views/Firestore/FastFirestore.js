@@ -6,11 +6,11 @@ class FastFirestoreBase extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            api_key:'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcm9kLXVzZXItY2xpZW50OmVhYWxsZW4iLCJpc3MiOiJhZ2VudDplYWFsbGVuOjo0YzBlYWQ5YS1kODE5LTQzMWMtYjVmOS0zNGEwZDE5MzRkOGQiLCJpYXQiOjE1Nzc3MTc5OTcsInJvbGUiOlsidXNlcl9hcGlfcmVhZCIsInVzZXJfYXBpX3dyaXRlIl0sImdlbmVyYWwtcHVycG9zZSI6dHJ1ZSwic2FtbCI6e319.XbV9G84LNvqN6RREjPKFlDLQrTtzUu5KVu46xDS7TOtGnMZ94h1PrNaAkQ6zT-79QOM7Ku2GrZdivguQ_o9jsw',
-            dw_data_set:'kandykane',
+            api_key:'',
+            dw_data_set:'',
             data_set_name:'',
-            file_name: 'customer',
-            user_name: 'eaallen',
+            file_name: '',
+            user_name: '',
             error: '',
             getting_data: false,
         }
